@@ -103,9 +103,7 @@ button {
   .btn {
     width: 64px;
   }
-  .btn-long {
-    width: 140px;
-  }
+
 }
 @media screen and (max-width: 400px) {
   .calc {
@@ -117,7 +115,5 @@ button {
   .btn {
     width: 60px;
   }
-  .btn-long {
-    width: 132px;
-  }
+
 }
