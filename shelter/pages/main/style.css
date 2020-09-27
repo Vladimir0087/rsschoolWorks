@@ -1,12 +1,12 @@
 @font-face {
   font-family: "Georgia";
-  src: url("assets/fonts/Georgia/Georgia-Bold.eot");
+  src: url("../../assets/fonts/Georgia/Georgia-Bold.eot");
   src: local("Georgia Bold"), local("Georgia-Bold"),
-    url("assets/fonts/Georgia/Georgia-Bold.eot?#iefix")
+    url("../../assets/fonts/Georgia/Georgia-Bold.eot?#iefix")
       format("embedded-opentype"),
-    url("assets/fonts/Georgia/Georgia-Bold.woff2") format("woff2"),
-    url("assets/fonts/Georgia/Georgia-Bold.woff") format("woff"),
-    url("assets/fonts/Georgia/Georgia-Bold.ttf") format("truetype");
+    url("../../assets/fonts/Georgia/Georgia-Bold.woff2") format("woff2"),
+    url("../../assets/fonts/Georgia/Georgia-Bold.woff") format("woff"),
+    url("../../assets/fonts/Georgia/Georgia-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -14,12 +14,12 @@
 
 @font-face {
   font-family: "Georgia";
-  src: url("assets/fonts/Georgia/Georgia.eot");
+  src: url("../../assets/fonts/Georgia/Georgia.eot");
   src: local("Georgia"),
-    url("assets/fonts/Georgia/Georgia.eot?#iefix") format("embedded-opentype"),
-    url("assets/fonts/Georgia/Georgia.woff2") format("woff2"),
-    url("assets/fonts/Georgia/Georgia.woff") format("woff"),
-    url("assets/fonts/Georgia/Georgia.ttf") format("truetype");
+    url("../../assets/fonts/Georgia/Georgia.eot?#iefix") format("embedded-opentype"),
+    url("../../assets/fonts/Georgia/Georgia.woff2") format("woff2"),
+    url("../../assets/fonts/Georgia/Georgia.woff") format("woff"),
+    url("../../assets/fonts/Georgia/Georgia.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
