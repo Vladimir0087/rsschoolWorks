@@ -69,6 +69,7 @@ function operatPress(op) {
 
     if ((NewNumber && PendingOperation !== "=" && PendingOperation !== "" && op === "-") || (localOperation === "0" && op === "-") || (localOperation === "Error!!!" && op === "-")) {
         minus = true;
+        display.value=op;
         return;
     };
     if (!NewNumber && localOperation === "0") return;
@@ -79,6 +80,7 @@ function operatPress(op) {
         return;
     }
     if (localOperation === "Error!!!") return;
+    if (display.value==="-" && op==="-") return;
 
     if (NewNumber && PendingOperation !== "=" && PendingOperation !== "" && !minus) {
         display.value = CurrentNumber;
@@ -102,9 +104,10 @@ function operatPress(op) {
                 display.value = CurrentNumber = "Error!!!"
             }
         }
-        if (CurrentNumber !== "Error!!!") {
-            CurrentNumber = +CurrentNumber.toFixed(16);
+        if (/\./.test(CurrentNumber.toString())) {
+            CurrentNumber = Math.round(CurrentNumber*1000000000000000)/1000000000000000;
         }
+
         display.value = CurrentNumber;
         PendingOperation = op;
         NewNumber = true;
