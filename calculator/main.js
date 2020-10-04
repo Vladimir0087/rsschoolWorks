@@ -67,12 +67,16 @@ function cleaning(arg) {
 function operatPress(op) {
     let localOperation = display.value;
 
-    if ((NewNumber && PendingOperation !== "=" && PendingOperation !== "" && op === "-") || (localOperation === "0" && op === "-") || (localOperation === "Error!!!" && op === "-")) {
+    if (minus && op === "-" && CurrentNumber === 0 && display.value === "-") {
+        minus = false;
+        display.value = "0";
+        return
+    }
+    if ((NewNumber && PendingOperation !== "=" && PendingOperation !== "" && op === "-") || (localOperation === "0" && CurrentNumber === 0 && op === "-") || (localOperation === "Error!!!" && op === "-")) {
         minus = true;
-        display.value=op;
+        display.value = op;
         return;
     };
-    if (!NewNumber && localOperation === "0") return;
 
     if (localOperation[localOperation.length - 1] === ".") {
         display.value = "Error!!!";
@@ -80,7 +84,7 @@ function operatPress(op) {
         return;
     }
     if (localOperation === "Error!!!") return;
-    if (display.value==="-" && op==="-") return;
+    if (display.value === "-") return;
 
     if (NewNumber && PendingOperation !== "=" && PendingOperation !== "" && !minus) {
         display.value = CurrentNumber;
@@ -105,7 +109,7 @@ function operatPress(op) {
             }
         }
         if (/\./.test(CurrentNumber.toString())) {
-            CurrentNumber = Math.round(CurrentNumber*1000000000000000)/1000000000000000;
+            CurrentNumber = Math.round(CurrentNumber * 1000000000000000) / 1000000000000000;
         }
 
         display.value = CurrentNumber;
