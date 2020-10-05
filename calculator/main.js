@@ -109,7 +109,7 @@ function operatPress(op) {
             }
         }
         if (/\./.test(CurrentNumber.toString())) {
-            CurrentNumber = Math.round(CurrentNumber * 1000000000000000) / 1000000000000000;
+            CurrentNumber = Math.round(CurrentNumber * 100000000000000) / 100000000000000;
         }
 
         display.value = CurrentNumber;
