@@ -104,14 +104,15 @@ function operatPress(op) {
         }
         if (op === "") {
             CurrentNumber = Math.sqrt(CurrentNumber);
-            if (+localOperation < 0 || display.value === "Error!!!") {
-                display.value = CurrentNumber = "Error!!!"
-            }
         }
+
         if (/\./.test(CurrentNumber.toString())) {
             CurrentNumber = Math.round(CurrentNumber * 100000000000000) / 100000000000000;
         }
 
+        if (display.value === "Error!!!" || isNaN(CurrentNumber)) {
+            display.value = CurrentNumber = "Error!!!"
+        }
         display.value = CurrentNumber;
         PendingOperation = op;
         NewNumber = true;
