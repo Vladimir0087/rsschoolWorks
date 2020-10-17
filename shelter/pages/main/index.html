@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../assets/normalize.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../../assets/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>shelter</title>
   </head>
 
@@ -23,6 +23,7 @@
             <li><a href="#">Contacts</a></li>
           </ul>
         </nav>
+        <img src="../../assets/Burgermain.png" class="main-burger" alt="burger" />
       </div>
     </header>
     <main>
@@ -77,7 +78,7 @@
             are looking for a house
           </h3>
           <article>
-            <a href="#" class="our-friends-arrow"
+            <a href="#" class="our-friends-arrow arrow-left"
               ><img src="../../assets/Arrowtoleft.png" alt="arrowleft"
             /></a>
             <div class="our-friends-cards">
@@ -111,51 +112,48 @@
             our shelter
           </h3>
           <div class="help-list">
-            <img src="../../assets/Pet food.png" alt="petfood" />
-            <img src="../../assets/Transportation.png" alt="Transportation" />
-            <img src="../../assets/Toys.png" alt="toys" />
-            <img src="../../assets/Bowls and cups.png" alt="bowls" />
-            <img src="../../assets/Shampoos.png" alt="shampoos" />
-            <img src="../../assets/Vitamins.png" class="six" alt="vitamins" />
-            <img src="../../assets/Medicines.png" alt="medicines" />
-            <img src="../../assets/leashes.png" alt="leashes" />
-            <img src="../../assets/Sleeping area.png" alt="Sleeping-area" />
-            <!-- <div class="help-list-item one">
-              <img src="assets/icon-pet-food.png" alt="pet-food">
+            <div class="help-list-item one">
+              <img src="../../assets/icon-pet-food.png" alt="pet-food" />
               <h4>Pet food</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-transportation.svg" alt="Transportation">
+              <img
+                src="../../assets/icon-transportation.svg"
+                alt="Transportation"
+              />
               <h4>Transportation</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-toys.svg" alt="Toys">
+              <img src="../../assets/icon-toys.svg" alt="Toys" />
               <h4>Toys</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-bowls-and-cups.svg" alt="Bowls">
+              <img src="../../assets/icon-bowls-and-cups.svg" alt="Bowls" />
               <h4>Bowls and cups</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-shampoos.svg" alt="Shampoos">
+              <img src="../../assets/icon-shampoos.svg" alt="Shampoos" />
               <h4>Shampoos</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-vitamins.svg" alt="Vitamins">
+              <img src="../../assets/icon-vitamins.png" alt="Vitamins" />
               <h4>Vitamins</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-medicines.svg" alt="Medicines">
+              <img src="../../assets/icon-medicines.svg" alt="Medicines" />
               <h4>Medicines</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-collars-leashes.svg" alt="Collars">
+              <img src="../../assets/icon-collars-leashes.svg" alt="Collars" />
               <h4>Collars / leashes</h4>
             </div>
             <div class="help-list-item">
-              <img src="assets/icon-sleeping-area.svg" alt="Sleeping-areas">
+              <img
+                src="../../assets/icon-sleeping-area.svg"
+                alt="Sleeping-areas"
+              />
               <h4>Sleeping areas</h4>
-            </div> -->
+            </div>
           </div>
         </div>
       </section>
@@ -172,9 +170,10 @@
               make a donation
             </h3>
             <p class="name-bank">Name of the bank / Type of bank account</p>
-            <a href="#" class="numcard"
-              ><img src="../../assets/credit-card-content.png" alt="card"
-            /></a>
+            <div class="numcard"
+              ><img src="../../assets/credit-card.svg" alt="card"
+            />
+            <a href="#">8380 2880 8028 8791 7435</a></div>
             <p class="addition-inform">
               Legal information and lorem ipsum dolor sit amet, consectetur
               adipiscing elit. Maecenas a ipsum at libero sagittis dignissim sed
@@ -189,22 +188,22 @@
       <div class="footer-content">
         <div class="footer-elements contacts">
           <h3>
-            For questions <br />
-            and suggestions
+            <span>For questions</span>
+            <span>and suggestions</span>
           </h3>
           <a href="mailto:email@shelter.com"
             ><img src="../../assets/icon-email.png" alt="email" />
             <p>email@shelter.com</p></a
           >
-          <a href="tel:+13 674 567 75 54"
+          <a href="tel:+136745677554"
             ><img src="../../assets/icon-phone.png" alt="phone" />
             <p>+13 674 567 75 54</p></a
           >
         </div>
         <div class="footer-elements location">
           <h3>
-            We are waiting <br />
-            for your visit
+            <span>We are waiting</span>
+            <span>for your visit</span>
           </h3>
           <a href="https://goo.gl/maps/xRunpR7Xmu34ajiBA" target="_blank"
             ><img src="../../assets/pin.png" alt="pin" />
@@ -219,7 +218,11 @@
             <p>18 South Park, London</p></a
           >
         </div>
-        <img src="../../assets/footer-puppy.png" alt="puppy" />
+        <img
+          src="../../assets/footer-puppy.png"
+          class="footer-image"
+          alt="puppy"
+        />
       </div>
     </footer>
   </body>

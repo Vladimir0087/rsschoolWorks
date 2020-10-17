@@ -179,32 +179,14 @@ section h3 {
   background: #fddcc4;
   border: none;
 }
-section nav ul {
+section nav {
   margin: 45px auto 0 auto;
   max-width: 340px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-section nav a {
-  font-family: Georgia;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 23px;
-  letter-spacing: 0.06em;
-  color: #cdcdcd;
-  text-decoration: none;
-  border: 2px solid #cdcdcd;
-  border-radius: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 52px;
-  height: 52px;
-  padding-bottom: 2px;
-}
-.buttons button {
+.buttons {
   font-family: Georgia;
   font-style: normal;
   font-weight: normal;
@@ -229,10 +211,12 @@ section nav a {
   justify-content: center;
   align-items: center;
   border: none;
+  cursor: pointer;
 }
 .nextlink {
   color: #292929;
   border: 2px solid #f1cdb3;
+  cursor: pointer;
 }
 .nextlink:hover {
   background: #fddcc4;
@@ -240,7 +224,7 @@ section nav a {
 }
 
 footer {
-  background: url(../../assets/noise_transparent.png),
+  background: url(../../assets/noise_transparent@2x.png),
     radial-gradient(100% 215.42% at 0% 0%, #5b483a 0%, #262425 100%), #211f20;
 }
 .footer-content {
@@ -323,7 +307,7 @@ footer {
   .cards-container li:nth-child(n + 5) {
     margin-bottom: 0;
   }
-  section nav ul {
+  section nav {
     margin: 40px auto 6px auto;
   }
   .footer-content {
@@ -384,7 +368,7 @@ footer {
   .cards-container li:nth-child(3) {
     margin: 0;
   }
-  section nav ul {
+  section nav {
     max-width: 300px;
     padding: 42px 0;
     margin: 0 auto;
