@@ -74,12 +74,18 @@ function getImage() {
   viewBgImage(imageSrc);
   i++;
   btn.disabled = true;
-  setTimeout(function () { btn.disabled = false }, 1000);
+  setTimeout(function () {
+    btn.disabled = false;
+  }, 1000);
 }
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', getImage);
 
-
+let a=0;
+btn.onclick = (e) => {
+  btn.style.transform = "rotate("+(a-180) +"deg)";
+  a= a-180;
+}
 
 const blockquote = document.querySelector('blockquote');
 const figcaption = document.querySelector('figcaption');
@@ -139,8 +145,10 @@ async function getWeather() {
   const res = await fetch(url);
 
   if (!res.ok) {
-    localStorage.setItem('city', "Минск");
-    getCity();
+    localStorage.setItem('city', city.textContent);
+    // getCity();
+    document.querySelector('.weather-date').classList.add('hide');
+    document.querySelector('.mistake').classList.add('show');
     return;
   }
   const data = await res.json();
@@ -150,6 +158,8 @@ async function getWeather() {
   weatherDescription.textContent = data.weather[0].description;
   windspeed.textContent = "скорость ветра: " + data.wind.speed + " м/с";
   humidity.textContent = "влажность воздуха : " + data.main.humidity + " %";
+  document.querySelector('.mistake').classList.remove('show');
+  document.querySelector('.weather-date').classList.remove('hide');
 }
 
 
@@ -165,8 +175,9 @@ function getCity() {
 function setCity(e) {
   if (e.type === 'keypress') {
     if (e.keyCode == 13 || e.which == 13) {
-      if (city.textContent === "") {
+      if (city.textContent.trim() === "") {
         getCity();
+        city.blur();
         return;
       }
       getWeather();
@@ -174,22 +185,14 @@ function setCity(e) {
       city.blur();
     }
   } else {
-    if (city.textContent === "") {
-      getCity();
-      return;
-    }
-    getWeather();
-    localStorage.setItem('city', e.target.innerText);
+    getCity();
+    city.blur();
   }
 }
 
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 city.addEventListener('blur', setCity);
-
-
-
-
 
 //---------------------------------------------------------------------------------------
 // Set Background and Greeting
@@ -226,36 +229,30 @@ function getName() {
   }
 }
 
-let prev;
-for (let elem of document.querySelectorAll('.name, .focus')) {
+
+for (let elem of document.querySelectorAll('.name, .focus, .city')) {
   elem.onclick = (e) => {
-    prev = elem.textContent;
     elem.textContent = "";
     elem.focus();
-
-
   }
 }
-
-for (let elem of document.querySelectorAll('.name, .focus')) {
-  elem.onblur = (e) => {
-    if (elem.textContent === "") {
-      elem.textContent = prev;
-    }
-  }
-}
-
 
 // Set Name
 function setName(e) {
   if (e.type === 'keypress') {
     // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
+      if (name.textContent.trim() === "") {
+        getName();
+        name.blur();
+        return;
+      }
       localStorage.setItem('name', e.target.innerText);
       name.blur();
     }
   } else {
-    localStorage.setItem('name', e.target.innerText);
+    getName();
+    name.blur();
   }
 }
 
@@ -273,11 +270,17 @@ function setFocus(e) {
   if (e.type === 'keypress') {
     // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
+      if (focus.textContent.trim() === "") {
+        getFocus();
+        focus.blur();
+        return;
+      }
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
     }
   } else {
-    localStorage.setItem('focus', e.target.innerText);
+    getFocus();
+    focus.blur();
   }
 }
 
