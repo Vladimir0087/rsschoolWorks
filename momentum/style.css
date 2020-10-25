@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background: url(assets/images/overlay.png);
+  text-shadow: rgb(8, 134, 46) 1px 0 15px;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: center center;
+  color: white;
+  margin: 0px;
+  height: 100vh;
+  width: 100vw;
+  transition: background-image 1s ease-in-out;
+}
+
+.quote {
+  font: 1.2rem Georgia, serif;
+  border-radius: 1em;
+  margin-top: 10px;
+
+}
+
+.btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  border: 0;
+  background: url(assets/images/update-button.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.btn:hover {
+  filter: grayscale(.5);
+}
+.btn:active,
+.btn:focus {
+  outline: 0;
+}
+.btn:active{
+  transform: scale(1.05)
+}
+
+.time {
+  font-size: 8rem;
+}
+
+.time-date {
+  font-size: 4rem;
+}
+
+h1 {
+  margin-bottom: 3rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+.city {
+  font-size: 2rem;
+  margin-top: 10px;
+}
+.temperature {
+  font-size: 2rem;
+}
+.weather-description, .windspeed, .humidity {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .time {
+    font-size: 6rem;
+  }
+}
