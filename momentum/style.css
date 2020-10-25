@@ -2,12 +2,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background: url(assets/images/overlay.png);
+  /* background: url(assets/images/overlay.png); */
   text-shadow: rgb(8, 134, 46) 1px 0 15px;
 }
 
 body {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +27,7 @@ body {
   font: 1.2rem Georgia, serif;
   border-radius: 1em;
   margin-top: 10px;
-
+  padding: 0 10px;
 }
 
 .btn {
@@ -43,14 +43,14 @@ body {
 }
 
 .btn:hover {
-  filter: grayscale(.5);
+  filter: grayscale(0.5);
 }
 .btn:active,
 .btn:focus {
   outline: 0;
 }
-.btn:active{
-  transform: scale(1.05)
+.btn:active {
+  transform: scale(1.05);
 }
 
 .time {
@@ -63,6 +63,7 @@ body {
 
 h1 {
   margin-bottom: 3rem;
+  margin-top: 10px;
 }
 
 h2 {
@@ -76,12 +77,95 @@ h2 {
 .temperature {
   font-size: 2rem;
 }
-.weather-description, .windspeed, .humidity {
+.weather-description,
+.windspeed,
+.humidity {
   font-size: 1.5rem;
 }
 
-@media (max-width: 700px) {
+.weather-city {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+@media (max-width: 1450px) {
+  .weather-city {
+    position: static;
+  }
   .time {
     font-size: 6rem;
+  }
+  .time-date {
+    font-size: 3rem;
+  }
+  .weather-icon.owf {
+    font-size: 120px;
+  }
+}
+@media (max-width: 1050px) {
+  .time {
+    font-size: 6rem;
+  }
+  .time-date {
+    font-size: 3rem;
+  }
+  .weather-icon.owf {
+    font-size: 100px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 800px) {
+  .time {
+    font-size: 3rem;
+  }
+  .time-date {
+    font-size: 2rem;
+  }
+  .weather-icon.owf {
+    font-size: 80px;
+  }
+}
+
+@media (max-width: 550px) {
+  .city {
+    font-size: 24px;
+  }
+  .time {
+    font-size: 2rem;
+  }
+  .time-date {
+    font-size: 1.5rem;
+  }
+  .temperature, .weather-description, .windspeed, .humidity{
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .btn {
+    width: 30px;
+    height: 30px;
+  }
+  .city {
+    font-size: 18px;
+  }
+  .time {
+    font-size: 1.5rem;
+  }
+  .time-date {
+    font-size: 1.5rem;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  .temperature, .weather-description, .windspeed, .humidity{
+    font-size: 18px;
   }
 }
