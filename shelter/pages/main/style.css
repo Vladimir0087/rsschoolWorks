@@ -481,10 +481,13 @@ header nav ul li:nth-child(n + 1) a {
   text-decoration: none;
   color: #545454;
 }
+
 .numcard:hover {
   background: #fddcc4;
 }
-
+.numcard a:hover {
+  color: tomato;
+}
 .our-friends-arrow {
   display: flex;
   justify-content: center;
@@ -1010,6 +1013,7 @@ footer {
     line-height: 17px;
     padding-right: 1px;
   }
+
   .numcard img {
     width: 30px;
     height: 23px;
