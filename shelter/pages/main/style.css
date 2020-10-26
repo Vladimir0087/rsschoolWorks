@@ -47,8 +47,9 @@ header {
   align-items: center;
 }
 .logo {
-  width: 184px;
+  width: 185px;
   height: 60px;
+  z-index: 6;
 }
 .logo h1 {
   font-family: Georgia;
@@ -72,7 +73,10 @@ header {
   letter-spacing: 0.1em;
   color: #ffffff;
 }
-header nav {
+.logo:hover {
+  cursor: pointer;
+}
+header nav ul {
   width: 443px;
   height: 27px;
   margin-bottom: 2px;
@@ -101,6 +105,10 @@ header nav ul li a {
 header nav ul li a:hover {
   color: #fafafa;
 }
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
 header nav ul li:first-child {
   height: 27px;
 }
@@ -114,6 +122,7 @@ header nav ul li:nth-child(n + 1) a {
 .main-burger {
   display: none;
   padding-top: 1px;
+  z-index: 6;
 }
 
 .not-only {
@@ -272,6 +281,8 @@ header nav ul li:nth-child(n + 1) a {
   display: flex;
   justify-content: space-between;
   width: 990px;
+  opacity: 1;
+  transition: 0.5s;
 }
 .our-friends-card {
   width: 270px;
@@ -286,6 +297,7 @@ header nav ul li:nth-child(n + 1) a {
 .our-friends-card:hover {
   box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
   background: #ffffff;
+  cursor: pointer;
 }
 .our-friends-card p {
   padding-top: 30px;
@@ -452,14 +464,14 @@ header nav ul li:nth-child(n + 1) a {
   box-sizing: border-box;
   border-radius: 9px;
   transition: all 0.5s ease;
-border: none;
+  border: none;
   font-family: Georgia;
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
   line-height: 115%;
   letter-spacing: 0.06em;
-padding: 0;
+  padding: 0;
 }
 .numcard img {
   margin-left: 15px;
@@ -470,7 +482,7 @@ padding: 0;
   color: #545454;
 }
 .numcard:hover {
-  background: #FDDCC4;;
+  background: #fddcc4;
 }
 
 .our-friends-arrow {
@@ -558,6 +570,127 @@ footer {
   padding-bottom: 2px;
 }
 
+/*----------------------popup---------------------------*/
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(41, 41, 41, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  display: none;
+}
+.popup-friends {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(41, 41, 41, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  display: none;
+}
+.show {
+  display: flex;
+}
+.mod-close {
+  position: absolute;
+  z-index: 3;
+  top: -52px;
+  right: -42px;
+  border-radius: 100px;
+}
+.mod-close:hover {
+  cursor: pointer;
+  background: #fddcc4;
+}
+.popup-friends-body {
+  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+  background: #fafafa;
+  border-radius: 9px;
+  width: 900px;
+  height: 500px;
+  display: flex;
+  position: relative;
+  z-index: 4;
+}
+#img {
+  width: 500px;
+  height: 500px;
+  border-radius: 9px 0px 0px 9px;
+}
+.popup-content {
+  width: 351px;
+  margin-left: 29px;
+  margin-top: 50px;
+}
+#names {
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 35px;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+  color: #000000;
+}
+.type-pet {
+  margin-top: 10px;
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+  color: #000000;
+}
+#description {
+  width: 350px;
+  margin-top: 40px;
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: 0.06em;
+  color: #000000;
+}
+.popup-content ul {
+  margin-top: 40px;
+  padding-left: 15px;
+  height: 102px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+.popup-content ul li span {
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 110%;
+  letter-spacing: 0.06em;
+  color: #000000;
+}
+.popup-content ul li span span {
+  font-weight: normal;
+}
+.popup-content ul li {
+  color: #f1cdb3;
+}
+.lock {
+  overflow: hidden;
+}
+
+.opacity0 {
+  opacity: 0;
+}
 @media (max-width: 1279px) {
   .content {
     margin: 0 30px 0 30px;
@@ -655,6 +788,32 @@ footer {
   .location a:nth-child(2) p {
     padding-bottom: 2px;
   }
+
+  .popup-friends-body {
+    width: 630px;
+    height: 350px;
+  }
+  #img {
+    width: 350px;
+    height: 350px;
+  }
+  .popup-content {
+    width: 260px;
+    margin-left: 11px;
+    margin-top: 11px;
+  }
+
+  #description {
+    width: 261px;
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 14px;
+  }
+  .popup-content ul {
+    margin-top: 19px;
+    height: 87px;
+    padding-left: 14px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -663,6 +822,10 @@ footer {
   }
   .main-burger {
     display: block;
+    transition: all 1s ease;
+  }
+  .main-burger:hover {
+    cursor: pointer;
   }
   .content {
     max-width: 257px;
@@ -905,5 +1068,93 @@ footer {
     margin: 40px auto 0;
     max-width: 260px;
     height: 269px;
+  }
+
+  .active-burger {
+    transform: rotate(90deg);
+  }
+  header {
+    overflow-x: hidden;
+  }
+  header nav {
+    display: block;
+    position: fixed;
+    width: 320px;
+    height: 100vh;
+    top: 0;
+    right: -320px;
+    justify-content: center;
+    background: #292929;
+    z-index: 5;
+    transition: all 1s ease;
+  }
+   .active-menu {
+    right: 0;
+  }
+  header nav ul {
+    width: 243px;
+    height: 327px;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    /* margin: 248px auto; */
+    margin: calc(50vh - 163.5px) auto;
+  }
+  header nav ul li a {
+    font-size: 32px;
+    line-height: 160%;
+    color: #cdcdcd;
+  }
+  .header-active {
+    color: #fafafa;
+  }
+
+  header nav ul li {
+    height: 51px;
+    padding: 0;
+  }
+  header nav ul li:first-child {
+    height: 54px;
+  }
+  header nav ul li:nth-child(n + 1) a {
+    padding-bottom: 0;
+    padding-top: 1px;
+  }
+
+  .popup-friends-body {
+    width: 240px;
+    height: auto;
+  }
+  #img {
+    display: none;
+  }
+  .mod-close {
+    right: -30px;
+  }
+  .popup-content {
+    width: 220px;
+    margin: 10px auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #names {
+    padding-left: 3px;
+    padding-top: 1px;
+  }
+  #description {
+    width: 220px;
+    text-align: justify;
+    margin-top: 21px;
+  }
+  .type-pet {
+    margin-top: 9px;
+  }
+  .popup-content ul {
+    margin: 23px 0 0;
+    align-self: start;
+    height: auto;
+    padding-left: 15px;
   }
 }

@@ -11,19 +11,22 @@
   <body>
     <header>
       <div class="header-context">
-        <div class="logo">
+        <div class="logo logo-pets">
           <h1>Cozy House</h1>
           <p>Shelter for pets in Boston</p>
         </div>
         <nav>
           <ul>
-            <li><a href="#">About the shelter</a></li>
+            <li><a href="../main/index.html">About the shelter</a></li>
             <li class="header-active"><a href="#">Our pets</a></li>
-            <li><a href="#">Help the shelter</a></li>
-            <li><a href="#">Contacts</a></li>
+            <li><a href="#" class="disabled">Help the shelter</a></li>
+            <li><a href="#" class="disabled">Contacts</a></li>
           </ul>
         </nav>
-        <img src="../../assets/Burger.png" class="menu-burger" alt="burger" />
+        <img src="../../assets/Burger.png" class="main-burger" alt="burger" />
+      </div>
+      <div class="popup">
+        <div class="popup-body"></div>
       </div>
     </header>
     <main>
@@ -32,55 +35,92 @@
           Our friends who <br />
           are looking for a house
         </h3>
-        <ul class="cards-container">
+        <ul class="cards-container pagination">
           <li>
             <img src="../../assets/pets-katrine.png" alt="pet" />
             <p>Katrine</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-jennifer.png" alt="pet" />
             <p>Jennifer</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-woody.png" alt="pet" />
             <p>Woody</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-sophia.png" alt="pet" />
             <p>Sophia</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-timmy.png" alt="pet" />
             <p>Timmy</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-charly.png" alt="pet" />
             <p>Charly</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-scarlet.png" alt="pet" />
             <p>Scarlett</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
           <li>
             <img src="../../assets/pets-freddie.png" alt="pet" />
             <p>Freddie</p>
-            <a href="#">Learn more</a>
+            <a href="#" class="notbt">Learn more</a>
           </li>
         </ul>
         <nav>
-            <button class="buttons" disabled>&lt;&lt;</button>
-            <button class="buttons" disabled>&lt;</button>
-            <button class="buttons section-link-active">1</button>
-            <button class="buttons nextlink">></button>
-            <button class="buttons nextlink">>></button>
+          <button class="buttons dis back-all" disabled>&lt;&lt;</button>
+          <button class="buttons dis back-one" disabled>&lt;</button>
+          <button class="buttons section-link-active page-num">1</button>
+          <button class="buttons nextlink next-one">></button>
+          <button class="buttons nextlink next-last">>></button>
         </nav>
+        <div class="popup-friends">
+          <div class="popup-friends-body">
+            <img
+              src="../../assets/modal_close_button.png"
+              class="mod-close"
+              alt="close"
+            />
+            <img id="img" src="../../assets/pets-jennifer.png" alt="pet" />
+            <div class="popup-content">
+              <p id="names"></p>
+              <p class="type-pet">
+                <span id="type">Dog</span> - <span id="breed">Labrador</span>
+              </p>
+              <p id="description">
+                Jennifer is a sweet 2 months old Labrador that is patiently
+                waiting to find a new forever home. This girl really enjoys
+                being able to go outside to run and play, but won't hesitate to
+                play up a storm in the house if she has all of her favorite
+                toys.
+              </p>
+              <ul>
+                <li>
+                  <span>Age: <span id="age">2 months</span></span>
+                </li>
+                <li>
+                  <span>Inoculations: <span id="inoculations"></span></span>
+                </li>
+                <li>
+                  <span>Diseases: <span id="diseases"></span></span>
+                </li>
+                <li>
+                  <span>Parasites: <span id="parasites"></span></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
     <footer>
@@ -127,5 +167,6 @@
         />
       </div>
     </footer>
+    <script src="../script.js"></script>
   </body>
 </html>
