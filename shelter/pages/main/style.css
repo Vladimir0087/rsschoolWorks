@@ -73,9 +73,7 @@ header {
   letter-spacing: 0.1em;
   color: #ffffff;
 }
-.logo:hover {
-  cursor: pointer;
-}
+
 header nav ul {
   width: 443px;
   height: 27px;
