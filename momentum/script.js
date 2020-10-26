@@ -78,13 +78,19 @@ function getImage() {
     btn.disabled = false;
   }, 1000);
 }
-const btn = document.querySelector('.btn');
+const btn = document.querySelector('.btnbg');
+const btn1 = document.querySelector('.btnquote');
 btn.addEventListener('click', getImage);
 
 let a=0;
 btn.onclick = (e) => {
   btn.style.transform = "rotate("+(a-180) +"deg)";
   a= a-180;
+}
+let b=0;
+btn1.onclick = (e) => {
+  btn1.style.transform = "rotate("+(b-180) +"deg)";
+  b= b-180;
 }
 
 const blockquote = document.querySelector('blockquote');
@@ -123,11 +129,17 @@ for (let i = advices.length - 1; i > 0; i--) {
 
 let adv=0;
 function getQuote() {
-  blockquote.textContent = advices[adv % 24]
-  adv++;
+  btn1.disabled = true;
+  blockquote.style.opacity = "0";
+  setTimeout(function () {
+    blockquote.textContent = advices[adv % 24];
+    adv++;
+    blockquote.style.opacity = "1";
+    btn1.disabled = false;
+  }, 1000);
 }
 document.addEventListener('DOMContentLoaded', getQuote);
-btn.addEventListener('click', getQuote);
+btn1.addEventListener('click', getQuote);
 
 const city = document.querySelector('.city');
 const weatherIcon = document.querySelector('.weather-icon');

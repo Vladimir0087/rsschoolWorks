@@ -28,15 +28,18 @@ body {
   border-radius: 1em;
   margin-top: 10px;
   padding: 0 10px;
-  height: 66px;
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  width: 450px;
 }
-
+blockquote {
+  transition: 0.5s;
+}
+.quote figure {
+  width: 380px;
+}
 .btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 60px;
-  height: 60px;
   border: 0;
   background: url(assets/images/update-button.png);
   background-size: contain;
@@ -44,9 +47,20 @@ body {
   outline: 0;
   transition: all 1s ease;
 }
-
+.btnbg {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 60px;
+  height: 60px;
+}
+.btnquote {
+  margin-right: 0;
+  width: 40px;
+  height: 40px;
+}
 .btn:hover {
-  filter: grayscale(0.8);
+  filter: grayscale(0.9);
   cursor: pointer;
 }
 
@@ -65,7 +79,6 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 0.5rem;
   opacity: 0.8;
 }
 .city {
@@ -78,12 +91,12 @@ h2 {
 }
 .name {
   width: 300px;
-  overflow:hidden;
+  overflow: hidden;
   height: 40px;
 }
 .focus {
   width: 300px;
-  overflow:hidden;
+  overflow-x: hidden;
   height: 30px;
 }
 .temperature {
@@ -129,10 +142,16 @@ h2 {
     font-size: 80px;
   }
   .weatherframe {
-    height: 211px;
+    height: 181px;
   }
   .name {
     height: 30px;
+  }
+  .temperature,
+  .weather-description,
+  .windspeed,
+  .humidity {
+    font-size: 20px;
   }
 }
 @media (max-width: 1050px) {
@@ -142,13 +161,11 @@ h2 {
   .time-date {
     font-size: 2.5rem;
   }
-  h1 {
-    font-size: 24px;
-  }
+
 }
 
 @media (max-width: 800px) {
-  .btn {
+  .btnbg {
     width: 45px;
     height: 45px;
   }
@@ -171,19 +188,21 @@ h2 {
   .time-date {
     font-size: 1.5rem;
   }
-  .temperature,
-  .weather-description,
-  .windspeed,
-  .humidity {
-    font-size: 20px;
+  .quote {
+    width: 310px;
+    height: 66px;
   }
-  .weatherframe {
-    height: 181px;
+  .quote figure {
+    width: 278px;
+  }
+  .btnquote {
+    width: 30px;
+    height: 30px;
   }
 }
 
 @media (max-width: 420px) {
-  .btn {
+  .btnbg {
     width: 30px;
     height: 30px;
   }
