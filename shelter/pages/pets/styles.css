@@ -682,7 +682,7 @@ footer {
   .popup-content ul {
     margin: 23px 0 0;
     align-self: start;
-    height: 87px;
+    height: auto;
     padding-left: 15px;
   }
 }

@@ -160,6 +160,7 @@ for (let elem of document.querySelectorAll(".our-friends-arrow")) {
         for (let card of document.querySelectorAll(".our-friends-card")) {
             check.push(card.children[1].innerHTML);
         }
+
         document.querySelector(".our-friends-cards").classList.add("opacity0");
         setTimeout(() => {
             for (let card of document.querySelectorAll(".our-friends-card")) {
