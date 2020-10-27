@@ -218,10 +218,12 @@ document.querySelector(".popup-friends").onclick = (e) => {
     if (e.target.closest('.mod-close')) {
         document.querySelector(".popup-friends").classList.remove("show");
         document.querySelector("body").classList.remove("lock");
+        document.querySelector('.mod-close').style.background = "";
     }
     if (e.target.closest('.popup-friends-body')) return;
     document.querySelector(".popup-friends").classList.remove("show");
     document.querySelector("body").classList.remove("lock");
+    document.querySelector('.mod-close').style.background = "";
 }
 
 /*-----------------------------------------------------------------------------------*/
