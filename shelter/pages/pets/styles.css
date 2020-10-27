@@ -329,6 +329,9 @@ footer {
   z-index: 10;
   display: none;
 }
+.popup-friends:hover {
+  cursor: pointer;
+}
 .show {
   display: flex;
 }
@@ -352,6 +355,9 @@ footer {
   display: flex;
   position: relative;
   z-index: 4;
+}
+.popup-friends-body:hover {
+  cursor: default;
 }
 #img {
   width: 500px;

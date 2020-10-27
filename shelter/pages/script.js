@@ -225,7 +225,13 @@ document.querySelector(".popup-friends").onclick = (e) => {
 }
 
 /*-----------------------------------------------------------------------------------*/
-
+document.querySelector(".popup-friends").onmouseover = (e) => {
+    if (e.target.closest('.mod-close') || e.target.closest('.popup-friends-body')) {
+        document.querySelector('.mod-close').style.background = "";
+    } else {
+        document.querySelector('.mod-close').style.background = "#fddcc4";
+    }
+}
 
 
 /*---------------------------------------------------------------------*/
