@@ -8,11 +8,11 @@
   min-height: 300px;
 }
 
-
 #i54 {
-background-size: 50% 80%;
-background-repeat: no-repeat;
-background-position: center;
+  background: rgb(184, 178, 178);
+  background-size: 50% 80%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .keyboard {
@@ -44,7 +44,7 @@ background-position: center;
   border: none;
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 1.05rem;
+  font-size: 20px;
   outline: none;
   cursor: pointer;
   display: inline-flex;
@@ -70,7 +70,7 @@ background-position: center;
 }
 
 .keyboard__key--activatable::after {
-  content: '';
+  content: "";
   top: 10px;
   right: 10px;
   position: absolute;
@@ -87,6 +87,15 @@ background-position: center;
 .keyboard__key--dark {
   background: rgba(0, 0, 0, 0.25);
 }
+#i55 {
+  width: 12%;
+}
+#i14 {
+  width: 12%;
+}
+#i42 {
+  width: 12%;
+}
 
 @media (max-width: 950px) {
   .keyboard__key--wide {
@@ -95,5 +104,29 @@ background-position: center;
 
   #i55 {
     width: 12%;
+  }
+  #i14 {
+    width: 12%;
+  }
+  #i42 {
+    width: 12%;
+  }
+  #i54 {
+    background-size: 60% 60%;
+  }
+  .keyboard__key--activatable::after {
+    top: 5px;
+  }
+}
+
+@media (max-width: 650px) {
+  .keyboard__key {
+    font-size: 17px;
+  }
+  .keyboard__key {
+    margin: 3px 2px 3px 2px;
+  }
+  #i54 {
+    background-size: 60% 50%;
   }
 }

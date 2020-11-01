@@ -528,7 +528,8 @@ document.addEventListener('keydown', function (event) {
       textArea.focus();
     } else return;
 
-  } else if (el.id !== "i14" && el.id !== "i41" && el.id !== "i54" && el.id !== "i55") {
+  } else if (el) {
+     if (el.id !== "i14" && el.id !== "i41" && el.id !== "i54" && el.id !== "i55") {
     event.preventDefault();
     Keyboard.properties.value = Keyboard.properties.value.toString().slice(0, Keyboard.curentCursor) + el.textContent + Keyboard.properties.value.toString().slice(Keyboard.curentCursor);
     Keyboard._triggerEvent("oninput");
@@ -537,7 +538,7 @@ document.addEventListener('keydown', function (event) {
     textArea.selectionStart = Keyboard.curentCursor;
     textArea.selectionEnd = Keyboard.curentCursor;
   }
-
+  }
 });
 
 document.addEventListener('keyup', function (event) {
@@ -550,3 +551,4 @@ document.addEventListener('keyup', function (event) {
 
   }
 });
+
