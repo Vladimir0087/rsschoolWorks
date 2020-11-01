@@ -584,3 +584,9 @@ rec.addEventListener("result", e => {
   textArea.selectionStart = Keyboard.curentCursor;
   textArea.selectionEnd = Keyboard.curentCursor;
 });
+
+rec.addEventListener('end', () => {
+ if (recognitionon) {
+  rec.start();
+ }
+});
