@@ -35,6 +35,11 @@ const eventcode = [
   'qqqqqq', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash',
   'Space', '', "voice", 'ArrowLeft', 'ArrowRight'
 ];
+let recognitionon = false;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = new SpeechRecognition();
+rec.lang = 'en-US';
+
 const textArea = document.getElementById('mytextarea');
 const Keyboard = {
   elements: {
@@ -192,22 +197,36 @@ const Keyboard = {
           });
           break;
 
-          case "voice":
-            keyElement.classList.add("keyboard__key--wide");
-            keyElement.innerHTML = key;
-            keyElement.addEventListener("click", () => {
-              if (this.sound) {
-                if (this.english) {
-                  let audio = new Audio("assets/keyen.mp3");
-                  audio.play();
-                } else {
-                  let audio = new Audio("assets/keyru.mp3");
-                  audio.play();
-                }
-              };
+        case "voice":
+          keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
+          keyElement.innerHTML = key;
+          keyElement.addEventListener("click", () => {
+            if (this.sound) {
+              if (this.english) {
+                let audio = new Audio("assets/keyen.mp3");
+                audio.play();
+              } else {
+                let audio = new Audio("assets/keyru.mp3");
+                audio.play();
+              }
+            };
 
-            });
-            break;
+            if (this.english) {
+              rec.lang = 'en-US';
+            } else {
+              rec.lang = 'ru';
+            }
+            recognitionon = !recognitionon;
+            if (recognitionon) {
+              keyElement.classList.add("keyboard__key--active");
+              rec.start();
+            } else {
+              keyElement.classList.remove("keyboard__key--active");
+              rec.stop();
+            }
+
+          });
+          break;
 
         case "caps":
           keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
@@ -529,15 +548,15 @@ document.addEventListener('keydown', function (event) {
     } else return;
 
   } else if (el) {
-     if (el.id !== "i14" && el.id !== "i41" && el.id !== "i54" && el.id !== "i55") {
-    event.preventDefault();
-    Keyboard.properties.value = Keyboard.properties.value.toString().slice(0, Keyboard.curentCursor) + el.textContent + Keyboard.properties.value.toString().slice(Keyboard.curentCursor);
-    Keyboard._triggerEvent("oninput");
-    textArea.focus();
-    Keyboard.curentCursor++;
-    textArea.selectionStart = Keyboard.curentCursor;
-    textArea.selectionEnd = Keyboard.curentCursor;
-  }
+    if (el.id !== "i14" && el.id !== "i41" && el.id !== "i54" && el.id !== "i55") {
+      event.preventDefault();
+      Keyboard.properties.value = Keyboard.properties.value.toString().slice(0, Keyboard.curentCursor) + el.textContent + Keyboard.properties.value.toString().slice(Keyboard.curentCursor);
+      Keyboard._triggerEvent("oninput");
+      textArea.focus();
+      Keyboard.curentCursor++;
+      textArea.selectionStart = Keyboard.curentCursor;
+      textArea.selectionEnd = Keyboard.curentCursor;
+    }
   }
 });
 
@@ -552,3 +571,16 @@ document.addEventListener('keyup', function (event) {
   }
 });
 
+rec.addEventListener("result", e => {
+  let text = "";
+  text = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('');
+  Keyboard.properties.value = Keyboard.properties.value.toString().slice(0, Keyboard.curentCursor) + text + Keyboard.properties.value.toString().slice(Keyboard.curentCursor);
+  Keyboard.curentCursor += text.length;
+  Keyboard._triggerEvent("oninput");
+  textArea.focus();
+  textArea.selectionStart = Keyboard.curentCursor;
+  textArea.selectionEnd = Keyboard.curentCursor;
+});
