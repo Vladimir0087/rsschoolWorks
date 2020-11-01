@@ -470,7 +470,6 @@ const Keyboard = {
 
   open(initialValue, oninput, onclose) {
     this.properties.value = initialValue || "";
-    // this.properties.value += this.properties.value;
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
     this.elements.main.classList.remove("keyboard--hidden");
@@ -500,9 +499,9 @@ document.addEventListener('keydown', function (event) {
     el.classList.toggle("keyboard__key--active");
     Keyboard._toggleCapsLock();
   } else if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
-    document.getElementById('i42').classList.toggle("keyboard__key--active");
-    Keyboard._shift();
-    Keyboard._toggleCapsLock();
+    // document.getElementById('i42').classList.toggle("keyboard__key--active");
+    // Keyboard._shift();
+    // Keyboard._toggleCapsLock();
   } else if (event.code === "Enter" || event.code === "NumpadEnter") {
     document.getElementById("i40").style.background = "orange";
     event.preventDefault();
@@ -531,20 +530,20 @@ document.addEventListener('keydown', function (event) {
     textArea.selectionStart = Keyboard.curentCursor;
     textArea.selectionEnd = Keyboard.curentCursor;
   } else if (event.code === "ArrowLeft") {
-    event.preventDefault();
+    // event.preventDefault();
     if (Keyboard.curentCursor > 0) {
-      textArea.selectionStart = Keyboard.curentCursor - 1;
-      textArea.selectionEnd = Keyboard.curentCursor - 1;
+      // textArea.selectionStart = Keyboard.curentCursor - 1;
+      // textArea.selectionEnd = Keyboard.curentCursor - 1;
       Keyboard.curentCursor = Keyboard.curentCursor - 1;
-      textArea.focus();
+      // textArea.focus();
     } else return;
   } else if (event.code === "ArrowRight") {
-    event.preventDefault();
+    // event.preventDefault();
     if (Keyboard.curentCursor < Keyboard.properties.value.length) {
-      textArea.selectionStart = Keyboard.curentCursor + 1;
-      textArea.selectionEnd = Keyboard.curentCursor + 1;
+      // textArea.selectionStart = Keyboard.curentCursor + 1;
+      // textArea.selectionEnd = Keyboard.curentCursor + 1;
       Keyboard.curentCursor = Keyboard.curentCursor + 1;
-      textArea.focus();
+      // textArea.focus();
     } else return;
 
   } else if (el) {
