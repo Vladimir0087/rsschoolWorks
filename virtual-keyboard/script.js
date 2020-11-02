@@ -493,7 +493,9 @@ document.addEventListener('keydown', function (event) {
   let elementskeys = document.querySelectorAll(".keyboard__key");
   let el = elementskeys[eventcode.indexOf(event.code)];
   if (el) {
-    el.style.background = 'orange';
+    if (el.id !== "i54") {
+      el.style.background = 'orange';
+    }
   }
   if (event.code === "CapsLock") {
     el.classList.toggle("keyboard__key--active");
@@ -585,7 +587,7 @@ rec.addEventListener("result", e => {
 });
 
 rec.addEventListener('end', () => {
- if (recognitionon) {
-  rec.start();
- }
+  if (recognitionon) {
+    rec.start();
+  }
 });
