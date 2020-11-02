@@ -501,9 +501,9 @@ document.addEventListener('keydown', function (event) {
     el.classList.toggle("keyboard__key--active");
     Keyboard._toggleCapsLock();
   } else if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
-    // document.getElementById('i42').classList.toggle("keyboard__key--active");
-    // Keyboard._shift();
-    // Keyboard._toggleCapsLock();
+    document.getElementById('i42').classList.toggle("keyboard__key--active");
+    Keyboard._shift();
+    Keyboard._toggleCapsLock();
   } else if (event.code === "Enter" || event.code === "NumpadEnter") {
     document.getElementById("i40").style.background = "orange";
     event.preventDefault();
