@@ -1,0 +1,18 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+      },
+    "extends": "airbnb-base",
+    "rules": {
+        "no-plusplus":"off",
+        "indent":"off",
+        "no-undef":"off",
+        "no-use-before-define":"off",
+        "no-loop-func":"off",
+        "no-inner-declarations":"off",
+        "linebreak-style":"off"
+
+    }
+}
