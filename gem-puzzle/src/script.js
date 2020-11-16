@@ -283,7 +283,6 @@ function dragdrop(e) {
 
         const isFinished = cells.every((el) => el.value === el.top * numbercells + el.left);
         if (isFinished) {
-            // localStorage.clear();
             clearInterval(timerId);
             setTimeout(winner, 400);
         }
@@ -456,24 +455,6 @@ document.querySelector('.select').addEventListener('change', (e) => {
     }
 });
 
-// function restartgame() {
-//     image = Math.floor(1 + Math.random() * 10);
-//     localStorage.removeItem('savedgame');
-//     localStorage.removeItem('sec');
-//     localStorage.removeItem('min');
-//     localStorage.removeItem('steps');
-//     localStorage.removeItem('numbercells');
-//     clearInterval(timerId);
-//     for (const el of document.querySelectorAll('.cell')) {
-//         el.remove();
-//     }
-//     start();
-//     time.innerHTML = "<span>Time: </span><span id='minutes'>00</span>
-// :<span id='seconds'>00</span>";
-//     stepsdiv.innerHTML = "<span>Steps: </span><span id='steps'>0</span>";
-//     timerId = setInterval(timego, 1000);
-// }
-
 const bestresults = document.createElement('button');
 bestresults.classList.add('button');
 bestresults.classList.add('bestresults');
@@ -504,14 +485,6 @@ bestres.onclick = () => {
     bestres.remove();
 };
 
-// function saveGame() {
-//   localStorage.setItem('savedgame', JSON.stringify(cells));
-//   localStorage.setItem('sec', seconds.innerHTML);
-//   localStorage.setItem('min', minutes.innerHTML);
-//   localStorage.setItem('steps', steps.innerHTML);
-//   localStorage.setItem('numbercells', numbercells);
-// }
-
 const sound = document.createElement('button');
 sound.classList.add('sound');
 field.prepend(sound);
@@ -524,33 +497,3 @@ sound.onclick = () => {
         sound.style.backgroundImage = "url('assets/mute.png')";
     }
 };
-
-/*------------------------------------------------------------------*/
-
-// Пример: ['abc'] -> ['3']; ['acc', 'bbbd'] -> ['2', '2']
-// */
-
-// function solve(arr) {
-//     let correct = arr.map(el => {
-//       let num = 0;
-//       let str = el.toUpperCase();
-//       for (let i = 0; i < str.length; i++) {
-//         if (str.charCodeAt(i) % (65 + i) === 0) {
-//           num++;
-//         }
-//       }
-//       return num.toString()
-//     });
-
-//   return correct;
-//   }
-
-// function solve(arr) {
-//     return arr.map(el => [...el.toUpperCase()].reduce((s,value,index) => s
-// + (value.charCodeAt() === index + 65), 0))
-//     }
-
-// console.log(solve(["abode","ABc","xyzD"]), '4,3,1');
-// console.log(solve(["abide","ABc","xyz"]), '4,3,0');
-// console.log(solve(["IAMDEFANDJKL","thedefgh","xyzDEFghijabc"]), '6,5,7');
-// console.log(solve(["encode","abc","xyzD","ABmD"]), '1,3,1,3');
