@@ -82,17 +82,32 @@ function start() {
 
     let countnum;
     function isSolvedgame() {
-        countnum = 1;
-        for (let i = 0; i < isSolvedcells; i++) {
-            for (let j = i + 1; j <= isSolvedcells; j++) {
-                if (changed[i] + 1 > changed[j] + 1) {
-                    countnum++;
+        if (numbercells % 2 === 0) {
+            countnum = 1;
+            for (let i = 0; i < isSolvedcells; i++) {
+                for (let j = i + 1; j <= isSolvedcells; j++) {
+                    if (changed[i] + 1 > changed[j] + 1) {
+                        countnum++;
+                    }
                 }
             }
-        }
-        if (countnum % 2 !== 0) {
-            shuffle(changed);
-            isSolvedgame();
+            if (countnum % 2 !== 0) {
+                shuffle(changed);
+                isSolvedgame();
+            }
+        } else {
+            countnum = 0;
+            for (let i = 0; i < isSolvedcells; i++) {
+                for (let j = i + 1; j <= isSolvedcells; j++) {
+                    if (changed[i] + 1 > changed[j] + 1) {
+                        countnum++;
+                    }
+                }
+            }
+            if (countnum % 2 !== 0) {
+                shuffle(changed);
+                isSolvedgame();
+            }
         }
     }
     isSolvedgame();
@@ -238,9 +253,9 @@ function dragdrop(e) {
     }
 
     const leftdif = Math.abs((cells[0].left
-    * cellsize - parseFloat(currentCard.style.left)) / cellsize);
+        * cellsize - parseFloat(currentCard.style.left)) / cellsize);
     const topdif = Math.abs((cells[0].top * cellsize
-    - parseFloat(currentCard.style.top)) / cellsize);
+        - parseFloat(currentCard.style.top)) / cellsize);
 
     if (topdif + leftdif <= 1) {
         const emptyleft = cells[0].left;
@@ -297,16 +312,16 @@ function winner() {
     } else {
         // eslint-disable-next-line no-restricted-syntax
         for (const el of winScores.reverse()) {
-          if (+steps.innerHTML < +el.steps || (+steps.innerHTML === +el.steps
-            && minutes.innerHTML < el.min) || (+steps.innerHTML === +el.steps
-            && minutes.innerHTML === el.min && seconds.innerHTML < el.sec)) {
-            el.steps = steps.innerHTML;
-            el.min = minutes.innerHTML;
-            el.sec = seconds.innerHTML;
-            el.numbercells = numbercells;
-            winScores.reverse();
-            break;
-          }
+            if (+steps.innerHTML < +el.steps || (+steps.innerHTML === +el.steps
+                && minutes.innerHTML < el.min) || (+steps.innerHTML === +el.steps
+                    && minutes.innerHTML === el.min && seconds.innerHTML < el.sec)) {
+                el.steps = steps.innerHTML;
+                el.min = minutes.innerHTML;
+                el.sec = seconds.innerHTML;
+                el.numbercells = numbercells;
+                winScores.reverse();
+                break;
+            }
         }
     }
 
