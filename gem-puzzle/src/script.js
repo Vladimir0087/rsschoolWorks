@@ -1,17 +1,21 @@
 // eslint-disable-next-line import/extensions
 import shuffle from './modules/shuffle.js';
 
-const wrapper = document.createElement('div');
-wrapper.classList.add('wrapper');
-document.body.prepend(wrapper);
-const field = document.createElement('div');
-field.classList.add('field');
-wrapper.prepend(field);
+function createDiv(className, parent) {
+    const el = document.createElement('div');
+    el.classList.add(className);
+    parent.prepend(el);
+    return el;
+}
+
+const wrapper = createDiv('wrapper', document.body);
+const field = createDiv('field', wrapper);
+
 let step = 0;
 let sec = 0;
 let min = 0;
-let numbercells = 4;
-let cellsize;
+let numberCells = 4;
+let cellSize;
 let cells = [];
 let empty = {};
 let changed;
@@ -20,69 +24,55 @@ let soundOn = false;
 let winScores = [];
 let currentCard;
 let image = Math.floor(1 + Math.random() * 10);
+const PERCENT = 100;
+const audio = new Audio('assets/music.mp3');
 
 function saveGame() {
     localStorage.setItem('savedgame', JSON.stringify(cells));
     localStorage.setItem('sec', seconds.innerHTML);
     localStorage.setItem('min', minutes.innerHTML);
     localStorage.setItem('steps', steps.innerHTML);
-    localStorage.setItem('numbercells', numbercells);
+    localStorage.setItem('numberCells', numberCells);
+}
+
+function fieldMake(n) {
+    changed = [...Array(n * n - 1).keys()];
+    cellSize = parseInt(field.style.width, 10) / n;
+    isSolvedcells = n * n - 2;
 }
 
 function start() {
-    if (localStorage.getItem('numbercells') !== null) {
-        numbercells = +localStorage.getItem('numbercells');
+    if (localStorage.getItem('numberCells') !== null) {
+        numberCells = +localStorage.getItem('numberCells');
     }
 
-    if (numbercells === 4) {
-        field.style.width = '70vmin';
-        field.style.height = '70vmin';
-        changed = [...Array(15).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 14;
-    }
-    if (numbercells === 3) {
-        field.style.width = '69vmin';
-        field.style.height = '69vmin';
-        changed = [...Array(8).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 7;
-    }
-
-    if (numbercells === 5) {
-        field.style.width = '70vmin';
-        field.style.height = '70vmin';
-        changed = [...Array(24).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 23;
-    }
-    if (numbercells === 6) {
-        field.style.width = '72vmin';
-        field.style.height = '72vmin';
-        changed = [...Array(35).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 34;
-    }
-    if (numbercells === 7) {
-        field.style.width = '70vmin';
-        field.style.height = '70vmin';
-        changed = [...Array(48).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 47;
-    }
-    if (numbercells === 8) {
-        field.style.width = '72vmin';
-        field.style.height = '72vmin';
-        changed = [...Array(63).keys()];
-        cellsize = parseInt(field.style.width, 10) / numbercells;
-        isSolvedcells = 62;
+    switch (numberCells) {
+        case 3:
+            field.style.width = '69vmin';
+            field.style.height = '69vmin';
+            break;
+        case 5:
+        case 7:
+            field.style.width = '70vmin';
+            field.style.height = '70vmin';
+            break;
+        case 6:
+        case 8:
+            field.style.width = '72vmin';
+            field.style.height = '72vmin';
+            break;
+        default:
+            field.style.width = '70vmin';
+            field.style.height = '70vmin';
     }
 
-    shuffle(changed);
+    fieldMake(numberCells);
+
+    changed = shuffle(changed);
 
     let countnum;
     function isSolvedgame() {
-        if (numbercells % 2 === 0) {
+        if (numberCells % 2 === 0) {
             countnum = 1;
             for (let i = 0; i < isSolvedcells; i++) {
                 for (let j = i + 1; j <= isSolvedcells; j++) {
@@ -92,7 +82,7 @@ function start() {
                 }
             }
             if (countnum % 2 !== 0) {
-                shuffle(changed);
+                changed = shuffle(changed);
                 isSolvedgame();
             }
         } else {
@@ -105,7 +95,7 @@ function start() {
                 }
             }
             if (countnum % 2 !== 0) {
-                shuffle(changed);
+                changed = shuffle(changed);
                 isSolvedgame();
             }
         }
@@ -127,7 +117,7 @@ function start() {
     if (localStorage.getItem('steps') !== null) {
         step = +localStorage.getItem('steps');
     }
-    if (localStorage.getItem('numbercells') !== null) {
+    if (localStorage.getItem('numberCells') !== null) {
         document.querySelectorAll('.cell').forEach((el) => {
             el.remove();
         });
@@ -143,13 +133,13 @@ function start() {
         let value;
         if (localStorage.getItem('savedgame') !== null) {
             cell.classList.add('cell');
-            cell.style.width = `${cellsize}vmin`;
-            cell.style.height = `${cellsize}vmin`;
+            cell.style.width = `${cellSize}vmin`;
+            cell.style.height = `${cellSize}vmin`;
             cell.innerHTML = cells[i].value;
             cell.id = cells[i].value;
 
-            cell.style.left = `${cells[i].left * cellsize}vmin`;
-            cell.style.top = `${cells[i].top * cellsize}vmin`;
+            cell.style.left = `${cells[i].left * cellSize}vmin`;
+            cell.style.top = `${cells[i].top * cellSize}vmin`;
             cells[i].element = cell;
             image = cells[i].image;
 
@@ -160,14 +150,14 @@ function start() {
             value = changed[i - 1] + 1;
             cell.id = value;
             cell.classList.add('cell');
-            cell.style.width = `${cellsize}vmin`;
-            cell.style.height = `${cellsize}vmin`;
+            cell.style.width = `${cellSize}vmin`;
+            cell.style.height = `${cellSize}vmin`;
             cell.innerHTML = value;
 
-            const left = i % numbercells;
-            const top = (i - left) / numbercells;
-            cell.style.left = `${left * cellsize}vmin`;
-            cell.style.top = `${top * cellsize}vmin`;
+            const left = i % numberCells;
+            const top = (i - left) / numberCells;
+            cell.style.left = `${left * cellSize}vmin`;
+            cell.style.top = `${top * cellSize}vmin`;
 
             cells.push({
                 value,
@@ -180,8 +170,9 @@ function start() {
             field.append(cell);
         }
 
-        const leftrpoc = ((value % numbercells) * 100) / (numbercells - 1);
-        const topproc = (((value - (value % numbercells)) / numbercells) * 100) / (numbercells - 1);
+        const leftrpoc = ((value % numberCells) * PERCENT) / (numberCells - 1);
+        const topproc = (((value - (value % numberCells)) / numberCells)
+            * PERCENT) / (numberCells - 1);
 
         cell.style.backgroundImage = `url("assets/${image}.jpg")`;
         cell.style.backgroundSize = `${field.style.width} ${field.style.width}`;
@@ -193,8 +184,8 @@ function start() {
             const leftdif = Math.abs(cells[0].left - celll.left);
             const topdif = Math.abs(cells[0].top - celll.top);
             if (topdif + leftdif > 1) return;
-            celll.element.style.left = `${cells[0].left * cellsize}vmin`;
-            celll.element.style.top = `${cells[0].top * cellsize}vmin`;
+            celll.element.style.left = `${cells[0].left * cellSize}vmin`;
+            celll.element.style.top = `${cells[0].top * cellSize}vmin`;
             const emptyleft = cells[0].left;
             const emptytop = cells[0].top;
             cells[0].left = celll.left;
@@ -203,13 +194,12 @@ function start() {
             celll.top = emptytop;
             stepsgo();
             if (soundOn) {
-                const audio = new Audio('assets/music.mp3');
                 audio.currentTime = 0;
                 audio.play();
                 setTimeout(() => audio.pause(), 300);
             }
             saveGame();
-            const isFinished = cells.every((el) => el.value === el.top * numbercells + el.left);
+            const isFinished = cells.every((el) => el.value === el.top * numberCells + el.left);
             if (isFinished) {
                 clearInterval(timerId);
                 setTimeout(winner, 400);
@@ -248,46 +238,43 @@ function stepsgo() {
 function dragdrop(e) {
     e.preventDefault();
 
-    if (e.target.classList.contains('cell')) {
-        return false;
-    }
+    if (!e.target.classList.contains('cell')) {
+        const leftdif = Math.abs((cells[0].left
+            * cellSize - parseFloat(currentCard.style.left)) / cellSize);
+        const topdif = Math.abs((cells[0].top * cellSize
+            - parseFloat(currentCard.style.top)) / cellSize);
 
-    const leftdif = Math.abs((cells[0].left
-        * cellsize - parseFloat(currentCard.style.left)) / cellsize);
-    const topdif = Math.abs((cells[0].top * cellsize
-        - parseFloat(currentCard.style.top)) / cellsize);
+        if (topdif + leftdif <= 1) {
+            const emptyleft = cells[0].left;
+            const emptytop = cells[0].top;
 
-    if (topdif + leftdif <= 1) {
-        const emptyleft = cells[0].left;
-        const emptytop = cells[0].top;
+            cells[0].left = parseFloat(currentCard.style.left) / cellSize;
+            cells[0].top = parseFloat(currentCard.style.top) / cellSize;
 
-        cells[0].left = parseFloat(currentCard.style.left) / cellsize;
-        cells[0].top = parseFloat(currentCard.style.top) / cellsize;
+            currentCard.style.left = `${emptyleft * cellSize}vmin`;
+            currentCard.style.top = `${emptytop * cellSize}vmin`;
 
-        currentCard.style.left = `${emptyleft * cellsize}vmin`;
-        currentCard.style.top = `${emptytop * cellsize}vmin`;
+            cells.find((el) => +el.value === +currentCard.id).left = emptyleft;
+            cells.find((el) => +el.value === +currentCard.id).top = emptytop;
 
-        cells.find((el) => +el.value === +currentCard.id).left = emptyleft;
-        cells.find((el) => +el.value === +currentCard.id).top = emptytop;
+            stepsgo();
 
-        stepsgo();
+            if (soundOn) {
+                audio.currentTime = 0;
+                audio.play();
+                setTimeout(() => audio.pause(), 300);
+            }
 
-        if (soundOn) {
-            const audio = new Audio('assets/music.mp3');
-            audio.currentTime = 0;
-            audio.play();
-            setTimeout(() => audio.pause(), 300);
-        }
+            saveGame();
 
-        saveGame();
-
-        const isFinished = cells.every((el) => el.value === el.top * numbercells + el.left);
-        if (isFinished) {
-            clearInterval(timerId);
-            setTimeout(winner, 400);
+            const isFinished = cells.every((el) => el.value === el.top * numberCells + el.left);
+            if (isFinished) {
+                clearInterval(timerId);
+                setTimeout(winner, 400);
+            }
         }
     }
-    return true;
+    return false;
 }
 field.addEventListener('drop', dragdrop);
 
@@ -306,21 +293,20 @@ function winner() {
             steps: steps.innerHTML,
             min: minutes.innerHTML,
             sec: seconds.innerHTML,
-            numbercells,
+            numberCells,
         });
     } else {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const el of winScores.reverse()) {
-            if (+steps.innerHTML < +el.steps || (+steps.innerHTML === +el.steps
+        const elem = winScores.reverse().find((el) => +steps.innerHTML < +el.steps
+            || (+steps.innerHTML === +el.steps
                 && minutes.innerHTML < el.min) || (+steps.innerHTML === +el.steps
-                    && minutes.innerHTML === el.min && seconds.innerHTML < el.sec)) {
-                el.steps = steps.innerHTML;
-                el.min = minutes.innerHTML;
-                el.sec = seconds.innerHTML;
-                el.numbercells = numbercells;
-                winScores.reverse();
-                break;
-            }
+                    && minutes.innerHTML === el.min && seconds.innerHTML < el.sec));
+
+        if (elem) {
+            elem.steps = steps.innerHTML;
+            elem.min = minutes.innerHTML;
+            elem.sec = seconds.innerHTML;
+            elem.numberCells = numberCells;
+            winScores.reverse();
         }
     }
 
@@ -337,13 +323,13 @@ function winner() {
     localStorage.setItem('winScores', JSON.stringify(winScores));
 }
 
-function restartgame() {
+function restartGame() {
     image = Math.floor(1 + Math.random() * 10);
     localStorage.removeItem('savedgame');
     localStorage.removeItem('sec');
     localStorage.removeItem('min');
     localStorage.removeItem('steps');
-    localStorage.removeItem('numbercells');
+    localStorage.removeItem('numberCells');
     clearInterval(timerId);
     const elements = document.querySelectorAll('.cell');
 
@@ -352,13 +338,13 @@ function restartgame() {
     });
     start();
     time.innerHTML = "<span>Time: </span><span id='minutes'>00</span>:<span id='seconds'>00</span>";
-    stepsdiv.innerHTML = "<span>Steps: </span><span id='steps'>0</span>";
+    stepsDiv.innerHTML = "<span>Steps: </span><span id='steps'>0</span>";
     timerId = setInterval(timego, 1000);
 }
 
 win.onclick = () => {
     win.remove();
-    restartgame();
+    restartGame();
 };
 
 function timego() {
@@ -396,93 +382,92 @@ if (stoptime) {
     clearInterval(timerId);
 }
 
-const stepsdiv = document.createElement('div');
-stepsdiv.classList.add('steps');
-stepsdiv.innerHTML = "<span>Steps: </span><span id='steps'>0</span>";
-field.prepend(stepsdiv);
+const stepsDiv = document.createElement('div');
+stepsDiv.classList.add('steps');
+stepsDiv.innerHTML = "<span>Steps: </span><span id='steps'>0</span>";
+field.prepend(stepsDiv);
 steps.innerHTML = step;
 
-const newgamebtn = document.createElement('button');
-newgamebtn.classList.add('button');
-newgamebtn.classList.add('newgame');
-newgamebtn.innerHTML = '<span>New game</span>';
-field.prepend(newgamebtn);
+const newgameBtn = document.createElement('button');
+newgameBtn.classList.add('button', 'newgame');
+newgameBtn.innerHTML = '<span>New game</span>';
+field.prepend(newgameBtn);
 
-newgamebtn.onclick = () => {
-    restartgame();
+newgameBtn.onclick = () => {
+    restartGame();
 };
 
-const gamemode = document.createElement('select');
-gamemode.classList.add('select');
+const gameMode = document.createElement('select');
+gameMode.classList.add('select');
 for (let i = 1; i <= 6; i++) {
     const name = document.createElement('option');
     name.id = `option${i}`;
     name.value = `${i + 2}x${i + 2}`;
     name.innerHTML = `${i + 2}x${i + 2}`;
-    gamemode.append(name);
+    gameMode.append(name);
 }
-gamemode.value = '4x4';
-if (localStorage.getItem('numbercells') !== null) {
-    const num = +localStorage.getItem('numbercells');
-    gamemode.value = `${num}x${num}`;
+gameMode.value = '4x4';
+if (localStorage.getItem('numberCells') !== null) {
+    const num = +localStorage.getItem('numberCells');
+    gameMode.value = `${num}x${num}`;
 }
-field.prepend(gamemode);
+field.prepend(gameMode);
 
 document.querySelector('.select').addEventListener('change', (e) => {
-    if (e.target.value === '3x3') {
-        numbercells = 3;
-        restartgame();
-    }
-    if (e.target.value === '4x4') {
-        numbercells = 4;
-        restartgame();
-    }
-    if (e.target.value === '5x5') {
-        numbercells = 5;
-        restartgame();
-    }
-    if (e.target.value === '6x6') {
-        numbercells = 6;
-        restartgame();
-    }
-    if (e.target.value === '7x7') {
-        numbercells = 7;
-        restartgame();
-    }
-    if (e.target.value === '8x8') {
-        numbercells = 8;
-        restartgame();
+    switch (e.target.value) {
+        case '3x3':
+            numberCells = 3;
+            restartGame();
+            break;
+        case '5x5':
+            numberCells = 5;
+            restartGame();
+            break;
+        case '6x6':
+            numberCells = 6;
+            restartGame();
+            break;
+        case '7x7':
+            numberCells = 7;
+            restartGame();
+            break;
+        case '8x8':
+            numberCells = 8;
+            restartGame();
+            break;
+        default:
+            numberCells = 4;
+            restartGame();
     }
 });
 
-const bestresults = document.createElement('button');
-bestresults.classList.add('button');
-bestresults.classList.add('bestresults');
-bestresults.innerHTML = '<span>Best results</span>';
-field.prepend(bestresults);
+const bestResults = document.createElement('button');
+bestResults.classList.add('button', 'bestresults');
+bestResults.innerHTML = '<span>Best results</span>';
+field.prepend(bestResults);
 
-const bestres = document.createElement('div');
+const bestRes = document.createElement('div');
 
-bestresults.onclick = () => {
-    bestres.innerHTML = `<div class="content">
+bestResults.onclick = () => {
+    bestRes.innerHTML = `<div class="content">
     <div class="contentsize">Size</div>
     <div class="contenttime">Time</div>
     <div class="contentstep"><p>Steps</p></div>
     </div>`;
-    field.prepend(bestres);
-    bestres.classList.add('popup');
+    field.prepend(bestRes);
+    bestRes.classList.add('popup');
     if (localStorage.getItem('winScores') !== null) {
         const winScoress = JSON.parse(localStorage.getItem('winScores')).slice();
         winScoress.forEach((el) => {
             document.querySelector('.contentstep').insertAdjacentHTML('beforeend', `<p>${el.steps}</p>`);
             document.querySelector('.contenttime').insertAdjacentHTML('beforeend', `<p>${el.min}:${el.sec}</p>`);
-            document.querySelector('.contentsize').insertAdjacentHTML('beforeend', `<p>${el.numbercells}x${el.numbercells}</p>`);
+            document.querySelector('.contentsize').insertAdjacentHTML('beforeend', `<p>${el.numberCells}x${el.numberCells}</p>`);
         });
     }
 };
 
-bestres.onclick = () => {
-    bestres.remove();
+bestRes.onclick = () => {
+    bestRes.remove();
 };
 
 const sound = document.createElement('button');
@@ -491,9 +476,5 @@ field.prepend(sound);
 sound.style.backgroundImage = "url('assets/mute.png')";
 sound.onclick = () => {
     soundOn = !soundOn;
-    if (soundOn) {
-        sound.style.backgroundImage = "url('assets/audio.png')";
-    } else {
-        sound.style.backgroundImage = "url('assets/mute.png')";
-    }
+    sound.style.backgroundImage = soundOn ? "url('assets/audio.png')" : "url('assets/mute.png')";
 };

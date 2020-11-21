@@ -1,8 +1,9 @@
 function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        // eslint-disable-next-line no-param-reassign
-        [array[i], array[j]] = [array[j], array[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
 }
 export default shuffle;
