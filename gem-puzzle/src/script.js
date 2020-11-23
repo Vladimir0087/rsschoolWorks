@@ -1,12 +1,7 @@
-// eslint-disable-next-line import/extensions
-import shuffle from './modules/shuffle.js';
-
-function createDiv(className, parent) {
-    const el = document.createElement('div');
-    el.classList.add(className);
-    parent.prepend(el);
-    return el;
-}
+import shuffle from './modules/shuffle';
+import createDiv from './modules/createDiv';
+// import fieldMake from './modules/fieldMake';
+import './style.css';
 
 const wrapper = createDiv('wrapper', document.body);
 const field = createDiv('field', wrapper);
@@ -35,9 +30,9 @@ function saveGame() {
     localStorage.setItem('numberCells', numberCells);
 }
 
-function fieldMake(n) {
+function fieldMake(n, fieldWidth) {
     changed = [...Array(n * n - 1).keys()];
-    cellSize = parseInt(field.style.width, 10) / n;
+    cellSize = parseInt(fieldWidth, 10) / n;
     isSolvedcells = n * n - 2;
 }
 
@@ -66,7 +61,7 @@ function start() {
             field.style.height = '70vmin';
     }
 
-    fieldMake(numberCells);
+    fieldMake(numberCells, field.style.width);
 
     changed = shuffle(changed);
 
