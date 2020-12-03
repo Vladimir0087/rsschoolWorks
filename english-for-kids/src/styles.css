@@ -530,3 +530,14 @@ main {
   font-size: 30px;
   color: #bd2929;
 }
+
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  text-align: left;
+  border: 1px solid #aaaaaa;
+  padding: 5px;
+}

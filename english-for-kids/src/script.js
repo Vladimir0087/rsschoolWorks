@@ -13,6 +13,18 @@ function navigationBlock(elementToActive, classToShow) {
     document.querySelector(classToShow).classList.toggle('show');
 }
 
+function getLocalData (data) {
+    if (localStorage.getItem(data) !== null) {
+        return JSON.parse(localStorage.getItem(data));
+    } else {
+        return [];
+    };
+};
+
+ let train = getLocalData('train');
+ let trueAnswers = getLocalData('trueAnswers');
+ let falseAnswers = getLocalData('falseAnswers');
+
 const burger = document.querySelector('#menu__toggle');
 burger.onclick = (e) => {
     navigationBlock(burger, '.popup')
@@ -52,8 +64,6 @@ function renderMainPage() {
         let card = createElement('div', 'card-main', cardContainer);
         let cardImage = createElement('div', 'card-main-image', card);
         let cardName = createElement('div', 'card-main-name', card);
-
-
         cardImage.style.backgroundImage = `url('assets/img/${cards[0][i]}.jpg')`;
         cardName.innerHTML = cards[0][i];
         i++;
@@ -112,8 +122,16 @@ function renderPages(index) {
         cardContainer.onclick = (e) => {
             if (sound) {
                 audio.play();
-            }
+            };
         };
+
+        card.onclick = (e) => {
+            if (!playModeOn) {
+                let word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                train.push(word);
+                localStorage.setItem('train', JSON.stringify(train));
+            }
+        }
 
         rotate.onclick = (e) => {
             audio.play();
@@ -135,16 +153,16 @@ function renderPages(index) {
         i++;
     });
 
-    if (playModeOn) {
-        playMode()
-    };
-
     let playGame = document.querySelector('.switch-input');
     playGame.onclick = (e) => {
         playModeOn = !playModeOn;
         sound = !sound;
         playMode();
     }
+
+    if (playModeOn) {
+        playMode()
+    };
 
     function playMode() {
 
@@ -200,6 +218,9 @@ function renderPages(index) {
                                 e.target.closest('.card-container-main').classList.add('inactive');
                                 createElement('div', 'star-succes', ratingString);
                                 correctAnswers++;
+                                let trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                                trueAnswers.push(trueWord);
+                                localStorage.setItem('trueAnswers', JSON.stringify(trueAnswers));
 
                                 if (guessCardNumber === 7) {
                                     if (wrongAnswers === 0) {
@@ -237,6 +258,10 @@ function renderPages(index) {
                                 audio.play();
                                 createElement('div', 'star-error', ratingString);
                                 wrongAnswers++;
+                                // let falseWord = e.target.closest('.card-container-main').firstChild.children[1].innerHTML;
+                                let falseWord = pageCards[guessCardNumber].translation;
+                                falseAnswers.push(falseWord);
+                                localStorage.setItem('falseAnswers', JSON.stringify(falseAnswers));
                             }
 
                         };
@@ -257,10 +282,8 @@ function renderPages(index) {
         document.querySelectorAll('.card-main-image').forEach((el) => {
             el.classList.toggle('playCardImage');
         });
-
-    }
-
-}
+    };
+};
 
 const Navigation = document.querySelectorAll('.menu__item');
 function renderMenu(block) {
@@ -276,18 +299,106 @@ function renderMenu(block) {
                 renderMainPage();
                 return;
             } else if (e.target.innerHTML === 'Statistics') {
-                // colorBtn[9].style.color = 'rgb(247, 46, 46';
-                return;
+                renderStatistics();
             } else {
                 let numberIndex = cards[0].findIndex(item => item === e.target.innerHTML) + 1;
                 renderPages(numberIndex);
             };
         };
     });
-}
+};
 renderMenu(Navigation);
 
+function renderStatistics() {
+    changeColorMenuBtn('.menu__item', 9);
 
+    if (document.querySelector('.wrapper-card-container-main')) {
+        document.querySelector('.wrapper-card-container-main').remove();
+    };
+
+    let statWrapper = createElement('div', 'wrapper-card-container-main', main);
+    let statTable = createElement('table', 'stat-table', statWrapper);
+    let tableHead = createElement('thead', 'table-head', statTable);
+    let tableHeadRow = createElement('tr', 'table-head-tr', tableHead);
+    let tableBody = createElement('tbody', 'table-body', statTable);
+
+    const titleNames = ['Category', 'Word', 'Translation', 'True', 'False', '% of true', 'Train']
+
+    titleNames.forEach((el) => {
+        let th = createElement('th', 'table-head-th', tableHeadRow);
+        th.innerHTML = `${el}<span class='arrows'>\u2BC6</span>`;
+    });
+
+    for (let i = 0; i < 8; i++) {
+
+        for (let j = 0; j < 8; j++) {
+            let tr = createElement('tr', 'table-body-tr', tableBody);
+
+            for (let k = 0; k < 7; k++) {
+                let td = createElement('td', 'table-body-td', tr);
+            };
+
+            statTable.rows[j + 1 + 8 * i].cells[0].innerHTML = cards[0][i];
+            statTable.rows[j + 1 + 8 * i].cells[1].innerHTML = cards[i + 1][j].word;
+            statTable.rows[j + 1 + 8 * i].cells[2].innerHTML = cards[i + 1][j].translation;
+            statTable.rows[j + 1 + 8 * i].cells[3].innerHTML = 0;
+            statTable.rows[j + 1 + 8 * i].cells[4].innerHTML = 0;
+            statTable.rows[j + 1 + 8 * i].cells[5].innerHTML = 0;
+            statTable.rows[j + 1 + 8 * i].cells[6].innerHTML = 0;
+        };
+    };
+
+    let statTranslation = [];
+    document.querySelectorAll('.table-body-tr').forEach((el) => {
+        statTranslation.push(el.children[2].innerHTML);
+    });
+
+    if (train.length) {
+        train.forEach((el) => {
+            let ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[6].innerHTML = +statTable.rows[ind + 1].cells[6].innerHTML + 1;
+        });
+    };
+
+    if (trueAnswers.length) {
+        trueAnswers.forEach((el) => {
+            let ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[3].innerHTML = +statTable.rows[ind + 1].cells[3].innerHTML + 1;
+        });
+    };
+
+    if (falseAnswers.length) {
+        falseAnswers.forEach((el) => {
+            let ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[4].innerHTML = +statTable.rows[ind + 1].cells[4].innerHTML + 1;
+        });
+    };
+
+    document.querySelectorAll('.table-body-tr').forEach((el) => {
+        el.children[5].innerHTML = +(((+el.children[3].innerHTML / (+el.children[3].innerHTML + (+el.children[4].innerHTML))) * 100)).toFixed(1) || 0;
+    });
+
+    document.querySelectorAll('.arrows').forEach((el) => {
+
+        el.onclick = (e) => {
+            if (el.innerHTML === '\u2BC6') {
+                el.innerHTML = '\u2BC5';
+            } else {
+                el.innerHTML = '\u2BC6';
+            };
+            let ind = Array.from(document.querySelectorAll('th')).findIndex(item => item === e.target.closest('th'));
+            // console.log(ind)
+
+
+
+        }
+    });
+
+    // console.log(trueAnswers)
+    // console.log(falseAnswers)
+
+
+}
 
 
 
