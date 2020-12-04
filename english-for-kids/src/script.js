@@ -13,7 +13,7 @@ function navigationBlock(elementToActive, classToShow) {
     document.querySelector(classToShow).classList.toggle('show');
 }
 
-function getLocalData (data) {
+function getLocalData(data) {
     if (localStorage.getItem(data) !== null) {
         return JSON.parse(localStorage.getItem(data));
     } else {
@@ -21,9 +21,9 @@ function getLocalData (data) {
     };
 };
 
- let train = getLocalData('train');
- let trueAnswers = getLocalData('trueAnswers');
- let falseAnswers = getLocalData('falseAnswers');
+let train = getLocalData('train');
+let trueAnswers = getLocalData('trueAnswers');
+let falseAnswers = getLocalData('falseAnswers');
 
 const burger = document.querySelector('#menu__toggle');
 burger.onclick = (e) => {
@@ -317,6 +317,11 @@ function renderStatistics() {
     };
 
     let statWrapper = createElement('div', 'wrapper-card-container-main', main);
+    let btnsContainer = createElement('div', 'btnsContainer', statWrapper);
+    let btmReset = createElement('button', 'btnsReset', btnsContainer);
+    let btnrepeatDiff = createElement('button', 'btnsRepeatDiff', btnsContainer);
+    btmReset.innerHTML = 'Reset';
+    btnrepeatDiff.innerHTML = 'Repeat difficult words';
     let statTable = createElement('table', 'stat-table', statWrapper);
     let tableHead = createElement('thead', 'table-head', statTable);
     let tableHeadRow = createElement('tr', 'table-head-tr', tableHead);
@@ -379,21 +384,55 @@ function renderStatistics() {
     });
 
     document.querySelectorAll('.arrows').forEach((el) => {
+        let tableBody = document.querySelector('.table-body');
+        let tableTrs = document.querySelectorAll('.table-body-tr');
 
         el.onclick = (e) => {
+            let ind = Array.from(document.querySelectorAll('th')).findIndex(item => item === e.target.closest('th'));
+
+            let sorted = [...tableTrs].sort((a, b) => {
+                if (el.innerHTML === '\u2BC5') {
+                    if (+ind > 2) {
+                        return b.children[ind].innerHTML - a.children[ind].innerHTML;
+                    }
+                    if (a.children[ind].innerHTML <= b.children[ind].innerHTML) {
+                        return 1;
+                    } else {
+                        return -1;
+                    };
+                } else {
+                    if (+ind > 2) {
+                        return a.children[ind].innerHTML - b.children[ind].innerHTML;
+                    }
+                    if (a.children[ind].innerHTML >= b.children[ind].innerHTML) {
+                        return 1;
+                    } else {
+                        return -1;
+                    };
+                };
+            });
+
+            tableBody.innerHTML = '';
+            sorted.forEach((el) => {
+                tableBody.append(el);
+            });
+
             if (el.innerHTML === '\u2BC6') {
                 el.innerHTML = '\u2BC5';
             } else {
                 el.innerHTML = '\u2BC6';
             };
-            let ind = Array.from(document.querySelectorAll('th')).findIndex(item => item === e.target.closest('th'));
-            // console.log(ind)
-
-
-
-        }
+        };
     });
 
+    btmReset.onclick = (e) => {
+        localStorage.clear();
+        train.length = 0;
+        trueAnswers.length = 0;
+        falseAnswers.length = 0;
+        renderStatistics();
+    };
+    
     // console.log(trueAnswers)
     // console.log(falseAnswers)
 
