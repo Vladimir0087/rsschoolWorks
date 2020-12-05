@@ -11,7 +11,7 @@ function navigationBlock(elementToActive, classToShow) {
     elementToActive.classList.toggle('active');
     document.querySelector('body').classList.toggle('lock');
     document.querySelector(classToShow).classList.toggle('show');
-}
+};
 
 function getLocalData(data) {
     if (localStorage.getItem(data) !== null) {
@@ -28,19 +28,19 @@ let falseAnswers = getLocalData('falseAnswers');
 const burger = document.querySelector('#menu__toggle');
 burger.onclick = (e) => {
     navigationBlock(burger, '.popup')
-}
+};
 document.querySelector('.popup').onclick = (e) => {
     if (document.querySelector('.popup').classList.contains('show')) {
         navigationBlock(burger, '.popup')
     }
-}
+};
 
 function createElement(element, className, parent) {
     const el = document.createElement(element);
     el.classList.add(className);
     parent.append(el);
     return el;
-}
+};
 
 function changeColorMenuBtn(selectorItems, posActive) {
     const colorBtn = document.querySelectorAll(selectorItems);
@@ -48,7 +48,7 @@ function changeColorMenuBtn(selectorItems, posActive) {
         btn.classList.remove('active-color');
     });
     colorBtn[posActive].classList.add('active-color');
-}
+};
 
 function renderMainPage() {
     changeColorMenuBtn('.menu__item', 0);
@@ -57,12 +57,15 @@ function renderMainPage() {
         document.querySelector('.wrapper-card-container-main').remove();
     }
     let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
-    cardWrapper.classList.add('marginTopMain');
+    let titlePageMain = createElement('div', 'titlePage', cardWrapper);
+    titlePageMain.classList.add('marginTitleMain');
+    titlePageMain.innerHTML = "Main Page";
     let i = 0;
     cards[0].forEach((el) => {
         let cardContainer = createElement('div', 'card-container-main', cardWrapper);
-        let card = createElement('div', 'card-main', cardContainer);
-        let cardImage = createElement('div', 'card-main-image', card);
+        let card = createElement('div', 'card-mainPage', cardContainer);
+
+        let cardImage = createElement('div', 'card-main-img', card);
         let cardName = createElement('div', 'card-main-name', card);
         cardImage.style.backgroundImage = `url('assets/img/${cards[0][i]}.jpg')`;
         cardName.innerHTML = cards[0][i];
@@ -72,12 +75,20 @@ function renderMainPage() {
     clickMainPage();
 
     let playGame = document.querySelector('.switch-input');
-
     playGame.onclick = (e) => {
         sound = !sound;
         playModeOn = !playModeOn;
-    }
-}
+        document.querySelectorAll('.card-mainPage').forEach((el) => {
+            el.classList.toggle('playModeMainCards');
+        });
+    };
+
+    if (playModeOn) {
+        document.querySelectorAll('.card-mainPage').forEach((el) => {
+            el.classList.toggle('playModeMainCards');
+        });
+    };
+};
 
 renderMainPage();
 
@@ -98,6 +109,8 @@ function renderPages(index) {
         document.querySelector('.wrapper-card-container-main').remove();
     }
     let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
+    let titlePage = createElement('div', 'titlePage', cardWrapper);
+    titlePage.innerHTML = cards[0][index - 1];
     let ratingString = createElement('div', 'rating', cardWrapper);
     ratingString.classList.add('unvisible');
 
@@ -147,9 +160,8 @@ function renderPages(index) {
                         sound = !sound;
                     }
                 };
-            }
+            };
         };
-
         i++;
     });
 
@@ -158,7 +170,7 @@ function renderPages(index) {
         playModeOn = !playModeOn;
         sound = !sound;
         playMode();
-    }
+    };
 
     if (playModeOn) {
         playMode()
@@ -171,7 +183,7 @@ function renderPages(index) {
             startGuessing = false;
             renderPages(curIndex);
             return;
-        }
+        };
 
         ratingString.innerHTML = '';
         ratingString.classList.toggle('unvisible');
@@ -182,8 +194,8 @@ function renderPages(index) {
         if (document.querySelector('.inactive')) {
             document.querySelectorAll('.inactive').forEach((el) => {
                 el.classList.remove('inactive');
-            })
-        }
+            });
+        };
 
         if (!document.querySelector('.btns')) {
             let btns = createElement('div', 'btns', cardWrapper);
@@ -204,7 +216,7 @@ function renderPages(index) {
                     btnStart.classList.add('repeatBtn');
                     btnStart.innerHTML = `<span class="material-icons">loop</span>`;
                     document.querySelector('.material-icons').style.fontSize = '38px';
-                }
+                };
 
                 let cardsGuessing = document.querySelectorAll('.card-container-main');
                 cardsGuessing.forEach((el) => {
@@ -317,6 +329,8 @@ function renderStatistics() {
     };
 
     let statWrapper = createElement('div', 'wrapper-card-container-main', main);
+    let titleStat = createElement('div', 'titlePage', statWrapper);
+    titleStat.innerHTML = "Statistics";
     let btnsContainer = createElement('div', 'btnsContainer', statWrapper);
     let btmReset = createElement('button', 'btnsReset', btnsContainer);
     let btnrepeatDiff = createElement('button', 'btnsRepeatDiff', btnsContainer);
@@ -352,6 +366,17 @@ function renderStatistics() {
             statTable.rows[j + 1 + 8 * i].cells[6].innerHTML = 0;
         };
     };
+
+    for (let i = 0; i < 8; i++) {
+        statTable.rows[i + 1].style.background = "#c59b9b";
+        statTable.rows[i + 9].style.background = "#b4be56";
+        statTable.rows[i + 17].style.background = "#3ae09b";
+        statTable.rows[i + 25].style.background = "#8d43ee";
+        statTable.rows[i + 33].style.background = "#e043ee";
+        statTable.rows[i + 41].style.background = "#ee43a1";
+        statTable.rows[i + 49].style.background = "#ebee43";
+        statTable.rows[i + 57].style.background = "#43eee5";
+    }
 
     let statTranslation = [];
     document.querySelectorAll('.table-body-tr').forEach((el) => {
@@ -432,10 +457,9 @@ function renderStatistics() {
         falseAnswers.length = 0;
         renderStatistics();
     };
-    
+
     // console.log(trueAnswers)
     // console.log(falseAnswers)
-
 
 }
 
