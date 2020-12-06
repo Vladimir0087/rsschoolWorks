@@ -1,25 +1,14 @@
 import cards from './modules/cards.js';
 import shuffle from './modules/shuffle.js';
-
+import navigationBlock from './modules/navigation.js';
+import getLocalData from './modules/getLocalData.js';
+import createElement from './modules/createElement.js';
+import changeColorMenuBtn from './modules/changeColorMenuBtn.js';
 
 const main = document.querySelector('main');
 let sound = true;
 let playModeOn = false;
 let startGuessing = false;
-
-function navigationBlock(elementToActive, classToShow) {
-    elementToActive.classList.toggle('active');
-    document.querySelector('body').classList.toggle('lock');
-    document.querySelector(classToShow).classList.toggle('show');
-};
-
-function getLocalData(data) {
-    if (localStorage.getItem(data) !== null) {
-        return JSON.parse(localStorage.getItem(data));
-    } else {
-        return [];
-    };
-};
 
 let train = getLocalData('train');
 let trueAnswers = getLocalData('trueAnswers');
@@ -33,21 +22,6 @@ document.querySelector('.popup').onclick = (e) => {
     if (document.querySelector('.popup').classList.contains('show')) {
         navigationBlock(burger, '.popup')
     }
-};
-
-function createElement(element, className, parent) {
-    const el = document.createElement(element);
-    el.classList.add(className);
-    parent.append(el);
-    return el;
-};
-
-function changeColorMenuBtn(selectorItems, posActive) {
-    const colorBtn = document.querySelectorAll(selectorItems);
-    colorBtn.forEach((btn) => {
-        btn.classList.remove('active-color');
-    });
-    colorBtn[posActive].classList.add('active-color');
 };
 
 function renderMainPage() {
@@ -189,7 +163,6 @@ function renderPages(index) {
         ratingString.classList.toggle('unvisible');
         let pageCards = [];
         let guessCardNumber = 0;
-        let correctAnswers = 0;
         let wrongAnswers = 0;
         if (document.querySelector('.inactive')) {
             document.querySelectorAll('.inactive').forEach((el) => {
@@ -229,7 +202,6 @@ function renderPages(index) {
                                 audio.play();
                                 e.target.closest('.card-container-main').classList.add('inactive');
                                 createElement('div', 'star-succes', ratingString);
-                                correctAnswers++;
                                 let trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
                                 trueAnswers.push(trueWord);
                                 localStorage.setItem('trueAnswers', JSON.stringify(trueAnswers));
@@ -252,6 +224,7 @@ function renderPages(index) {
                                     }
                                     setTimeout(() => {
                                         document.querySelector('.containerfinall').remove();
+
                                         renderMainPage();
                                     }, 2000);
                                 }
@@ -270,7 +243,6 @@ function renderPages(index) {
                                 audio.play();
                                 createElement('div', 'star-error', ratingString);
                                 wrongAnswers++;
-                                // let falseWord = e.target.closest('.card-container-main').firstChild.children[1].innerHTML;
                                 let falseWord = pageCards[guessCardNumber].translation;
                                 falseAnswers.push(falseWord);
                                 localStorage.setItem('falseAnswers', JSON.stringify(falseAnswers));
@@ -299,7 +271,6 @@ function renderPages(index) {
 
 const Navigation = document.querySelectorAll('.menu__item');
 function renderMenu(block) {
-    // const Navigation = document.querySelectorAll('.menu__item');
     block.forEach((el) => {
         el.onclick = (e) => {
             e.preventDefault();
@@ -368,10 +339,10 @@ function renderStatistics() {
     };
 
     for (let i = 0; i < 8; i++) {
-        statTable.rows[i + 1].style.background = "#c59b9b";
+        statTable.rows[i + 1].style.background = "#e7b5b5";
         statTable.rows[i + 9].style.background = "#b4be56";
         statTable.rows[i + 17].style.background = "#3ae09b";
-        statTable.rows[i + 25].style.background = "#8d43ee";
+        statTable.rows[i + 25].style.background = "#ae74fa";
         statTable.rows[i + 33].style.background = "#e043ee";
         statTable.rows[i + 41].style.background = "#ee43a1";
         statTable.rows[i + 49].style.background = "#ebee43";
@@ -457,10 +428,6 @@ function renderStatistics() {
         falseAnswers.length = 0;
         renderStatistics();
     };
-
-    // console.log(trueAnswers)
-    // console.log(falseAnswers)
-
 }
 
 
