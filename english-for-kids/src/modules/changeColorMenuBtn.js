@@ -4,6 +4,6 @@ function changeColorMenuBtn(selectorItems, posActive) {
         btn.classList.remove('active-color');
     });
     colorBtn[posActive].classList.add('active-color');
-};
+}
 
 export default changeColorMenuBtn;

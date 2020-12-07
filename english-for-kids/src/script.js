@@ -4,6 +4,8 @@ import navigationBlock from './modules/navigation';
 import getLocalData from './modules/getLocalData';
 import createElement from './modules/createElement';
 import changeColorMenuBtn from './modules/changeColorMenuBtn';
+import clickMainPage from './modules/clickMainPage';
+import renderMenu from './modules/renderMenu';
 import './styles.css';
 
 const main = document.querySelector('main');
@@ -47,19 +49,8 @@ function renderMainPage() {
         i++;
     });
 
-    function clickMainPage() {
-        const Pages = document.querySelectorAll('.card-container-main');
-        Pages.forEach((elem) => {
-            const element = elem;
-            element.onclick = (e) => {
-                const numberIndex = Array.from(Pages).findIndex((item) => item === e.target.closest('.card-container-main')) + 1;
-                // eslint-disable-next-line no-use-before-define
-                renderPages(numberIndex);
-            };
-        });
-    }
-
-    clickMainPage();
+    // eslint-disable-next-line no-use-before-define
+    clickMainPage(renderPages);
 
     const playGame = document.querySelector('.switch-input');
     playGame.onclick = () => {
@@ -619,25 +610,5 @@ function renderStatistics() {
 }
 
 const Navigation = document.querySelectorAll('.menu__item');
-function renderMenu(block) {
-    block.forEach((el) => {
-        const element = el;
-        element.onclick = (e) => {
-            e.preventDefault();
-            if (document.querySelector('.popup').classList.contains('show')) {
-                navigationBlock(burger, '.popup');
-            }
 
-            if (e.target.innerHTML === 'Main page') {
-                renderMainPage();
-                return;
-            } if (e.target.innerHTML === 'Statistics') {
-                renderStatistics();
-            } else {
-                const numberIndex = cards[0].findIndex((item) => item === e.target.innerHTML) + 1;
-                renderPages(numberIndex);
-            }
-        };
-    });
-}
-renderMenu(Navigation);
+renderMenu(Navigation, renderMainPage, renderStatistics, renderPages, burger);

@@ -3,6 +3,6 @@ function createElement(element, className, parent) {
     el.classList.add(className);
     parent.append(el);
     return el;
-};
+}
 
 export default createElement;
