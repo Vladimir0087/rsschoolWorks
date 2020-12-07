@@ -609,6 +609,16 @@ footer {
   color: #c20b0b;
 }
 
+.nothingToRepeat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vmin;
+  font-size: 30px;
+  text-align: center;
+  color: #1f77db;
+}
+
 @media (max-width: 660px) {
   .stat-table {
     font-size: 13px;
