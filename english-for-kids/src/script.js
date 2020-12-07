@@ -428,6 +428,230 @@ function renderStatistics() {
         falseAnswers.length = 0;
         renderStatistics();
     };
+
+    btnrepeatDiff.onclick = (e) => {
+
+        let arrTrs = [];
+        let arrTrsCorrect = [];
+        document.querySelectorAll('.table-body-tr').forEach((el) => {
+            if (el.children[4].innerHTML / (+el.children[3].innerHTML + (+el.children[4].innerHTML)) > 0) {
+                arrTrs.push(el);
+            };
+        });
+
+        arrTrs.sort((a, b) => {
+            return ((b.children[4].innerHTML / (+b.children[3].innerHTML + (+b.children[4].innerHTML)) - a.children[4].innerHTML / (+a.children[3].innerHTML + (+a.children[4].innerHTML))));
+        });
+
+        arrTrs.forEach((el) => {
+            if (arrTrsCorrect.length >= 8) return;
+            arrTrsCorrect.push(el)
+        });
+
+        function findObject(data) {
+            let cardsObject;
+            for (let i = 1; i <= 8; i++) {
+                cardsObject = cards[i].find(item => item.translation === data);
+                if (cardsObject !== undefined) break;
+            };
+            return cardsObject;
+        };
+
+        if (document.querySelector('.wrapper-card-container-main')) {
+            document.querySelector('.wrapper-card-container-main').remove();
+        }
+
+        let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
+        let titlePage = createElement('div', 'titlePage', cardWrapper);
+        titlePage.innerHTML = 'Repeat difficult words';
+
+        if (arrTrsCorrect.length === 0) {
+            let nothingToRepeat = createElement('div', 'nothingToRepeat', cardWrapper);
+            nothingToRepeat.innerHTML = 'There are no difficult <br> words to repeat';
+            return;
+        }
+
+        let ratingString = createElement('div', 'rating', cardWrapper);
+        ratingString.classList.add('unvisible');
+
+        let i = 0;
+        arrTrsCorrect.forEach((el) => {
+            let cardContainer = createElement('div', 'card-container-main', cardWrapper);
+            let card = createElement('div', 'card-main', cardContainer);
+            let cardback = createElement('div', 'card-main-back', cardContainer);
+            let cardImage = createElement('div', 'card-main-image', card);
+            let cardImageback = createElement('div', 'card-main-image', cardback);
+            let cardName = createElement('div', 'card-main-name', card);
+            let cardNameback = createElement('div', 'card-main-name', cardback);
+            let arrCorrectObj = findObject(arrTrsCorrect[i].children[2].innerHTML);
+            cardImage.style.backgroundImage = `url('${arrCorrectObj.image}')`;
+            cardName.innerHTML = arrTrsCorrect[i].children[1].innerHTML;
+            cardImageback.style.backgroundImage = `url('${arrCorrectObj.image}')`;
+            cardNameback.innerHTML = arrTrsCorrect[i].children[2].innerHTML;
+
+
+            const audio = new Audio(arrCorrectObj.audioSrc);
+            const rotate = createElement('div', 'card-rotate', card);
+
+            cardContainer.onclick = (e) => {
+                if (sound) {
+                    audio.play();
+                };
+            };
+
+            card.onclick = (e) => {
+                if (!playModeOn) {
+                    let word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                    train.push(word);
+                    localStorage.setItem('train', JSON.stringify(train));
+                };
+            };
+
+            rotate.onclick = (e) => {
+                audio.play();
+                sound = !sound;
+                card.classList.add('translate');
+                cardback.classList.add('translateback');
+
+                cardContainer.onmouseleave = (e) => {
+                    if (card.classList.contains('translate')) {
+                        card.classList.remove('translate');
+                        cardback.classList.remove('translateback');
+                        if (!sound) {
+                            sound = !sound;
+                        }
+                    };
+                };
+            };
+            i++;
+        });
+
+        let playGame = document.querySelector('.switch-input');
+        playGame.onclick = (e) => {
+            playModeOn = !playModeOn;
+            sound = !sound;
+            playMode();
+        };
+
+        if (playModeOn) {
+            playMode()
+        };
+
+        function playMode() {
+
+            ratingString.innerHTML = '';
+            ratingString.classList.toggle('unvisible');
+            let pageCards = [];
+            let guessCardNumber = 0;
+            let wrongAnswers = 0;
+            if (document.querySelector('.inactive')) {
+                document.querySelectorAll('.inactive').forEach((el) => {
+                    el.classList.remove('inactive');
+                });
+            };
+
+            if (!document.querySelector('.btns')) {
+                let btns = createElement('div', 'btns', cardWrapper);
+                let btnStart = createElement('button', 'btnStart', btns);
+                btnStart.innerHTML = "START GAME";
+
+                arrTrsCorrect.forEach((el) => {
+                    pageCards.push(el)
+                });
+                pageCards = shuffle(pageCards);
+
+                btnStart.onclick = (e) => {
+
+                    startGuessing = true;
+                    const audio = new Audio(findObject(pageCards[guessCardNumber].children[2].innerHTML).audioSrc);
+                    audio.play();
+                    if (!btnStart.classList.contains('repeatBtn')) {
+                        btnStart.classList.add('repeatBtn');
+                        btnStart.innerHTML = `<span class="material-icons">loop</span>`;
+                        document.querySelector('.material-icons').style.fontSize = '38px';
+                    };
+
+                    let cardsGuessing = document.querySelectorAll('.card-container-main');
+                    cardsGuessing.forEach((el) => {
+
+                        el.onclick = (e) => {
+
+                            if (startGuessing) {
+                                if (e.target.style.backgroundImage === `url("${findObject(pageCards[guessCardNumber].children[2].innerHTML).image}")`) {
+                                    let audio = new Audio('assets/audio/correct.mp3');
+                                    audio.play();
+                                    e.target.closest('.card-container-main').classList.add('inactive');
+                                    createElement('div', 'star-succes', ratingString);
+                                    let trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                                    trueAnswers.push(trueWord);
+                                    localStorage.setItem('trueAnswers', JSON.stringify(trueAnswers));
+
+                                    if (guessCardNumber === arrTrsCorrect.length - 1) {
+                                        if (wrongAnswers === 0) {
+                                            audio = new Audio('assets/audio/success.mp3');
+                                            audio.play();
+                                            document.querySelector('.wrapper-card-container-main').remove();
+                                            let containerLooser = createElement('div', 'containerfinall', main)
+                                            createElement('div', 'winner', containerLooser);
+                                        } else {
+                                            audio = new Audio('assets/audio/failure.mp3');
+                                            audio.play();
+                                            document.querySelector('.wrapper-card-container-main').remove();
+                                            let containerLooser = createElement('div', 'containerfinall', main)
+                                            createElement('div', 'looser', containerLooser);
+                                            let wrongScore = createElement('div', 'wrongScore', containerLooser);
+                                            wrongScore.innerHTML = `${wrongAnswers} wrong answers`;
+                                        }
+                                        setTimeout(() => {
+                                            document.querySelector('.containerfinall').remove();
+
+                                            renderMainPage();
+                                        }, 2000);
+                                    }
+
+                                    if (guessCardNumber < arrTrsCorrect.length - 1) {
+                                        guessCardNumber++;
+                                        setTimeout(() => {
+                                            audio = new Audio(findObject(pageCards[guessCardNumber].children[2].innerHTML).audioSrc);
+                                            audio.play();
+                                        }, 1000);
+
+                                    }
+
+                                } else {
+                                    const audio = new Audio('assets/audio/error.mp3');
+                                    audio.play();
+                                    createElement('div', 'star-error', ratingString);
+                                    wrongAnswers++;
+                                    let falseWord = findObject(pageCards[guessCardNumber].children[2].innerHTML).translation;
+                                    falseAnswers.push(falseWord);
+                                    localStorage.setItem('falseAnswers', JSON.stringify(falseAnswers));
+                                }
+
+                            };
+                        }
+                    });
+                };
+
+            } else {
+                document.querySelector('.btns').remove();
+            };
+
+            document.querySelectorAll('.card-main-name').forEach((el) => {
+                el.classList.toggle('hide');
+            });
+            document.querySelectorAll('.card-rotate').forEach((el) => {
+                el.classList.toggle('hide');
+            });
+            document.querySelectorAll('.card-main-image').forEach((el) => {
+                el.classList.toggle('playCardImage');
+            });
+        };
+
+
+    }
+
+
 }
 
 
