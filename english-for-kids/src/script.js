@@ -1,26 +1,27 @@
-import cards from './modules/cards.js';
-import shuffle from './modules/shuffle.js';
-import navigationBlock from './modules/navigation.js';
-import getLocalData from './modules/getLocalData.js';
-import createElement from './modules/createElement.js';
-import changeColorMenuBtn from './modules/changeColorMenuBtn.js';
+import cards from './modules/cards';
+import shuffle from './modules/shuffle';
+import navigationBlock from './modules/navigation';
+import getLocalData from './modules/getLocalData';
+import createElement from './modules/createElement';
+import changeColorMenuBtn from './modules/changeColorMenuBtn';
+import './styles.css';
 
 const main = document.querySelector('main');
 let sound = true;
 let playModeOn = false;
 let startGuessing = false;
 
-let train = getLocalData('train');
-let trueAnswers = getLocalData('trueAnswers');
-let falseAnswers = getLocalData('falseAnswers');
+const train = getLocalData('train');
+const trueAnswers = getLocalData('trueAnswers');
+const falseAnswers = getLocalData('falseAnswers');
 
 const burger = document.querySelector('#menu__toggle');
-burger.onclick = (e) => {
-    navigationBlock(burger, '.popup')
+burger.onclick = () => {
+    navigationBlock(burger, '.popup');
 };
-document.querySelector('.popup').onclick = (e) => {
+document.querySelector('.popup').onclick = () => {
     if (document.querySelector('.popup').classList.contains('show')) {
-        navigationBlock(burger, '.popup')
+        navigationBlock(burger, '.popup');
     }
 };
 
@@ -30,26 +31,38 @@ function renderMainPage() {
     if (document.querySelector('.wrapper-card-container-main')) {
         document.querySelector('.wrapper-card-container-main').remove();
     }
-    let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
-    let titlePageMain = createElement('div', 'titlePage', cardWrapper);
+    const cardWrapper = createElement('div', 'wrapper-card-container-main', main);
+    const titlePageMain = createElement('div', 'titlePage', cardWrapper);
     titlePageMain.classList.add('marginTitleMain');
-    titlePageMain.innerHTML = "Main Page";
+    titlePageMain.innerHTML = 'Main Page';
     let i = 0;
-    cards[0].forEach((el) => {
-        let cardContainer = createElement('div', 'card-container-main', cardWrapper);
-        let card = createElement('div', 'card-mainPage', cardContainer);
+    cards[0].forEach(() => {
+        const cardContainer = createElement('div', 'card-container-main', cardWrapper);
+        const card = createElement('div', 'card-mainPage', cardContainer);
 
-        let cardImage = createElement('div', 'card-main-img', card);
-        let cardName = createElement('div', 'card-main-name', card);
+        const cardImage = createElement('div', 'card-main-img', card);
+        const cardName = createElement('div', 'card-main-name', card);
         cardImage.style.backgroundImage = `url('assets/img/${cards[0][i]}.jpg')`;
         cardName.innerHTML = cards[0][i];
         i++;
     });
 
+    function clickMainPage() {
+        const Pages = document.querySelectorAll('.card-container-main');
+        Pages.forEach((elem) => {
+            const element = elem;
+            element.onclick = (e) => {
+                const numberIndex = Array.from(Pages).findIndex((item) => item === e.target.closest('.card-container-main')) + 1;
+                // eslint-disable-next-line no-use-before-define
+                renderPages(numberIndex);
+            };
+        });
+    }
+
     clickMainPage();
 
-    let playGame = document.querySelector('.switch-input');
-    playGame.onclick = (e) => {
+    const playGame = document.querySelector('.switch-input');
+    playGame.onclick = () => {
         sound = !sound;
         playModeOn = !playModeOn;
         document.querySelectorAll('.card-mainPage').forEach((el) => {
@@ -61,20 +74,10 @@ function renderMainPage() {
         document.querySelectorAll('.card-mainPage').forEach((el) => {
             el.classList.toggle('playModeMainCards');
         });
-    };
-};
+    }
+}
 
 renderMainPage();
-
-function clickMainPage() {
-    const Pages = document.querySelectorAll('.card-container-main');
-    Pages.forEach((elem) => {
-        elem.onclick = (e) => {
-            let numberIndex = Array.from(Pages).findIndex(item => item === e.target.closest('.card-container-main')) + 1;
-            renderPages(numberIndex);
-        };
-    });
-}
 
 function renderPages(index) {
     changeColorMenuBtn('.menu__item', index);
@@ -82,22 +85,21 @@ function renderPages(index) {
     if (document.querySelector('.wrapper-card-container-main')) {
         document.querySelector('.wrapper-card-container-main').remove();
     }
-    let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
-    let titlePage = createElement('div', 'titlePage', cardWrapper);
+    const cardWrapper = createElement('div', 'wrapper-card-container-main', main);
+    const titlePage = createElement('div', 'titlePage', cardWrapper);
     titlePage.innerHTML = cards[0][index - 1];
-    let ratingString = createElement('div', 'rating', cardWrapper);
+    const ratingString = createElement('div', 'rating', cardWrapper);
     ratingString.classList.add('unvisible');
 
-
     let i = 0;
-    cards[index].forEach((el) => {
-        let cardContainer = createElement('div', 'card-container-main', cardWrapper);
-        let card = createElement('div', 'card-main', cardContainer);
-        let cardback = createElement('div', 'card-main-back', cardContainer);
-        let cardImage = createElement('div', 'card-main-image', card);
-        let cardImageback = createElement('div', 'card-main-image', cardback);
-        let cardName = createElement('div', 'card-main-name', card);
-        let cardNameback = createElement('div', 'card-main-name', cardback);
+    cards[index].forEach(() => {
+        const cardContainer = createElement('div', 'card-container-main', cardWrapper);
+        const card = createElement('div', 'card-main', cardContainer);
+        const cardback = createElement('div', 'card-main-back', cardContainer);
+        const cardImage = createElement('div', 'card-main-image', card);
+        const cardImageback = createElement('div', 'card-main-image', cardback);
+        const cardName = createElement('div', 'card-main-name', card);
+        const cardNameback = createElement('div', 'card-main-name', cardback);
         cardImage.style.backgroundImage = `url('${cards[index][i].image}')`;
         cardName.innerHTML = cards[index][i].word;
         cardImageback.style.backgroundImage = `url('${cards[index][i].image}')`;
@@ -106,58 +108,46 @@ function renderPages(index) {
         const audio = new Audio(cards[index][i].audioSrc);
         const rotate = createElement('div', 'card-rotate', card);
 
-        cardContainer.onclick = (e) => {
+        cardContainer.onclick = () => {
             if (sound) {
                 audio.play();
-            };
+            }
         };
 
         card.onclick = (e) => {
             if (!playModeOn) {
-                let word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                const word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
                 train.push(word);
                 localStorage.setItem('train', JSON.stringify(train));
             }
-        }
+        };
 
-        rotate.onclick = (e) => {
+        rotate.onclick = () => {
             audio.play();
             sound = !sound;
             card.classList.add('translate');
             cardback.classList.add('translateback');
 
-            cardContainer.onmouseleave = (e) => {
+            cardContainer.onmouseleave = () => {
                 if (card.classList.contains('translate')) {
                     card.classList.remove('translate');
                     cardback.classList.remove('translateback');
                     if (!sound) {
                         sound = !sound;
                     }
-                };
+                }
             };
         };
         i++;
     });
 
-    let playGame = document.querySelector('.switch-input');
-    playGame.onclick = (e) => {
-        playModeOn = !playModeOn;
-        sound = !sound;
-        playMode();
-    };
-
-    if (playModeOn) {
-        playMode()
-    };
-
     function playMode() {
-
-        let curIndex = index;
+        const curIndex = index;
         if (startGuessing) {
             startGuessing = false;
             renderPages(curIndex);
             return;
-        };
+        }
 
         ratingString.innerHTML = '';
         ratingString.classList.toggle('unvisible');
@@ -168,41 +158,39 @@ function renderPages(index) {
             document.querySelectorAll('.inactive').forEach((el) => {
                 el.classList.remove('inactive');
             });
-        };
+        }
 
         if (!document.querySelector('.btns')) {
-            let btns = createElement('div', 'btns', cardWrapper);
-            let btnStart = createElement('button', 'btnStart', btns);
-            btnStart.innerHTML = "START GAME";
+            const btns = createElement('div', 'btns', cardWrapper);
+            const btnStart = createElement('button', 'btnStart', btns);
+            btnStart.innerHTML = 'START GAME';
 
             cards[index].forEach((el) => {
-                pageCards.push(el)
+                pageCards.push(el);
             });
             pageCards = shuffle(pageCards);
 
-            btnStart.onclick = (e) => {
-
+            btnStart.onclick = () => {
                 startGuessing = true;
-                const audio = new Audio(pageCards[guessCardNumber].audioSrc);
+                let audio = new Audio(pageCards[guessCardNumber].audioSrc);
                 audio.play();
                 if (!btnStart.classList.contains('repeatBtn')) {
                     btnStart.classList.add('repeatBtn');
-                    btnStart.innerHTML = `<span class="material-icons">loop</span>`;
+                    btnStart.innerHTML = '<span class="material-icons">loop</span>';
                     document.querySelector('.material-icons').style.fontSize = '38px';
-                };
+                }
 
-                let cardsGuessing = document.querySelectorAll('.card-container-main');
+                const cardsGuessing = document.querySelectorAll('.card-container-main');
                 cardsGuessing.forEach((el) => {
-
-                    el.onclick = (e) => {
-
+                    const element = el;
+                    element.onclick = (e) => {
                         if (startGuessing) {
                             if (e.target.style.backgroundImage === `url("${pageCards[guessCardNumber].image}")`) {
-                                let audio = new Audio('assets/audio/correct.mp3');
+                                audio = new Audio('assets/audio/correct.mp3');
                                 audio.play();
                                 e.target.closest('.card-container-main').classList.add('inactive');
                                 createElement('div', 'star-succes', ratingString);
-                                let trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                                const trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
                                 trueAnswers.push(trueWord);
                                 localStorage.setItem('trueAnswers', JSON.stringify(trueAnswers));
 
@@ -211,15 +199,15 @@ function renderPages(index) {
                                         audio = new Audio('assets/audio/success.mp3');
                                         audio.play();
                                         document.querySelector('.wrapper-card-container-main').remove();
-                                        let containerLooser = createElement('div', 'containerfinall', main)
+                                        const containerLooser = createElement('div', 'containerfinall', main);
                                         createElement('div', 'winner', containerLooser);
                                     } else {
                                         audio = new Audio('assets/audio/failure.mp3');
                                         audio.play();
                                         document.querySelector('.wrapper-card-container-main').remove();
-                                        let containerLooser = createElement('div', 'containerfinall', main)
+                                        const containerLooser = createElement('div', 'containerfinall', main);
                                         createElement('div', 'looser', containerLooser);
-                                        let wrongScore = createElement('div', 'wrongScore', containerLooser);
+                                        const wrongScore = createElement('div', 'wrongScore', containerLooser);
                                         wrongScore.innerHTML = `${wrongAnswers} wrong answers`;
                                     }
                                     setTimeout(() => {
@@ -235,27 +223,23 @@ function renderPages(index) {
                                         audio = new Audio(pageCards[guessCardNumber].audioSrc);
                                         audio.play();
                                     }, 1000);
-
                                 }
-
                             } else {
-                                const audio = new Audio('assets/audio/error.mp3');
+                                audio = new Audio('assets/audio/error.mp3');
                                 audio.play();
                                 createElement('div', 'star-error', ratingString);
                                 wrongAnswers++;
-                                let falseWord = pageCards[guessCardNumber].translation;
+                                const falseWord = pageCards[guessCardNumber].translation;
                                 falseAnswers.push(falseWord);
                                 localStorage.setItem('falseAnswers', JSON.stringify(falseAnswers));
                             }
-
-                        };
-                    }
+                        }
+                    };
                 });
             };
-
         } else {
             document.querySelector('.btns').remove();
-        };
+        }
 
         document.querySelectorAll('.card-main-name').forEach((el) => {
             el.classList.toggle('hide');
@@ -266,67 +250,54 @@ function renderPages(index) {
         document.querySelectorAll('.card-main-image').forEach((el) => {
             el.classList.toggle('playCardImage');
         });
+    }
+
+    const playGame = document.querySelector('.switch-input');
+    playGame.onclick = () => {
+        playModeOn = !playModeOn;
+        sound = !sound;
+        playMode();
     };
-};
 
-const Navigation = document.querySelectorAll('.menu__item');
-function renderMenu(block) {
-    block.forEach((el) => {
-        el.onclick = (e) => {
-            e.preventDefault();
-            if (document.querySelector('.popup').classList.contains('show')) {
-                navigationBlock(burger, '.popup');
-            };
-
-            if (e.target.innerHTML === 'Main page') {
-                renderMainPage();
-                return;
-            } else if (e.target.innerHTML === 'Statistics') {
-                renderStatistics();
-            } else {
-                let numberIndex = cards[0].findIndex(item => item === e.target.innerHTML) + 1;
-                renderPages(numberIndex);
-            };
-        };
-    });
-};
-renderMenu(Navigation);
+    if (playModeOn) {
+        playMode();
+    }
+}
 
 function renderStatistics() {
     changeColorMenuBtn('.menu__item', 9);
 
     if (document.querySelector('.wrapper-card-container-main')) {
         document.querySelector('.wrapper-card-container-main').remove();
-    };
+    }
 
-    let statWrapper = createElement('div', 'wrapper-card-container-main', main);
-    let titleStat = createElement('div', 'titlePage', statWrapper);
-    titleStat.innerHTML = "Statistics";
-    let btnsContainer = createElement('div', 'btnsContainer', statWrapper);
-    let btmReset = createElement('button', 'btnsReset', btnsContainer);
-    let btnrepeatDiff = createElement('button', 'btnsRepeatDiff', btnsContainer);
+    const statWrapper = createElement('div', 'wrapper-card-container-main', main);
+    const titleStat = createElement('div', 'titlePage', statWrapper);
+    titleStat.innerHTML = 'Statistics';
+    const btnsContainer = createElement('div', 'btnsContainer', statWrapper);
+    const btmReset = createElement('button', 'btnsReset', btnsContainer);
+    const btnrepeatDiff = createElement('button', 'btnsRepeatDiff', btnsContainer);
     btmReset.innerHTML = 'Reset';
     btnrepeatDiff.innerHTML = 'Repeat difficult words';
-    let statTable = createElement('table', 'stat-table', statWrapper);
-    let tableHead = createElement('thead', 'table-head', statTable);
-    let tableHeadRow = createElement('tr', 'table-head-tr', tableHead);
+    const statTable = createElement('table', 'stat-table', statWrapper);
+    const tableHead = createElement('thead', 'table-head', statTable);
+    const tableHeadRow = createElement('tr', 'table-head-tr', tableHead);
     let tableBody = createElement('tbody', 'table-body', statTable);
 
-    const titleNames = ['Category', 'Word', 'Translation', 'True', 'False', '% of true', 'Train']
+    const titleNames = ['Category', 'Word', 'Translation', 'True', 'False', '% of true', 'Train'];
 
     titleNames.forEach((el) => {
-        let th = createElement('th', 'table-head-th', tableHeadRow);
+        const th = createElement('th', 'table-head-th', tableHeadRow);
         th.innerHTML = `${el}<span class='arrows'>\u2BC6</span>`;
     });
 
     for (let i = 0; i < 8; i++) {
-
         for (let j = 0; j < 8; j++) {
-            let tr = createElement('tr', 'table-body-tr', tableBody);
+            const tr = createElement('tr', 'table-body-tr', tableBody);
 
             for (let k = 0; k < 7; k++) {
-                let td = createElement('td', 'table-body-td', tr);
-            };
+                createElement('td', 'table-body-td', tr);
+            }
 
             statTable.rows[j + 1 + 8 * i].cells[0].innerHTML = cards[0][i];
             statTable.rows[j + 1 + 8 * i].cells[1].innerHTML = cards[i + 1][j].word;
@@ -335,93 +306,95 @@ function renderStatistics() {
             statTable.rows[j + 1 + 8 * i].cells[4].innerHTML = 0;
             statTable.rows[j + 1 + 8 * i].cells[5].innerHTML = 0;
             statTable.rows[j + 1 + 8 * i].cells[6].innerHTML = 0;
-        };
-    };
-
-    for (let i = 0; i < 8; i++) {
-        statTable.rows[i + 1].style.background = "#e7b5b5";
-        statTable.rows[i + 9].style.background = "#b4be56";
-        statTable.rows[i + 17].style.background = "#3ae09b";
-        statTable.rows[i + 25].style.background = "#ae74fa";
-        statTable.rows[i + 33].style.background = "#e043ee";
-        statTable.rows[i + 41].style.background = "#ee43a1";
-        statTable.rows[i + 49].style.background = "#ebee43";
-        statTable.rows[i + 57].style.background = "#43eee5";
+        }
     }
 
-    let statTranslation = [];
+    for (let i = 0; i < 8; i++) {
+        statTable.rows[i + 1].style.background = '#e7b5b5';
+        statTable.rows[i + 9].style.background = '#b4be56';
+        statTable.rows[i + 17].style.background = '#3ae09b';
+        statTable.rows[i + 25].style.background = '#ae74fa';
+        statTable.rows[i + 33].style.background = '#e043ee';
+        statTable.rows[i + 41].style.background = '#ee43a1';
+        statTable.rows[i + 49].style.background = '#ebee43';
+        statTable.rows[i + 57].style.background = '#43eee5';
+    }
+
+    const statTranslation = [];
     document.querySelectorAll('.table-body-tr').forEach((el) => {
         statTranslation.push(el.children[2].innerHTML);
     });
 
     if (train.length) {
         train.forEach((el) => {
-            let ind = statTranslation.findIndex((elem) => elem === el);
-            statTable.rows[ind + 1].cells[6].innerHTML = +statTable.rows[ind + 1].cells[6].innerHTML + 1;
+            const ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[6].innerHTML = +statTable.rows[ind
+            + 1].cells[6].innerHTML + 1;
         });
-    };
+    }
 
     if (trueAnswers.length) {
         trueAnswers.forEach((el) => {
-            let ind = statTranslation.findIndex((elem) => elem === el);
-            statTable.rows[ind + 1].cells[3].innerHTML = +statTable.rows[ind + 1].cells[3].innerHTML + 1;
+            const ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[3].innerHTML = +statTable.rows[ind
+            + 1].cells[3].innerHTML + 1;
         });
-    };
+    }
 
     if (falseAnswers.length) {
         falseAnswers.forEach((el) => {
-            let ind = statTranslation.findIndex((elem) => elem === el);
-            statTable.rows[ind + 1].cells[4].innerHTML = +statTable.rows[ind + 1].cells[4].innerHTML + 1;
+            const ind = statTranslation.findIndex((elem) => elem === el);
+            statTable.rows[ind + 1].cells[4].innerHTML = +statTable.rows[ind
+            + 1].cells[4].innerHTML + 1;
         });
-    };
+    }
 
     document.querySelectorAll('.table-body-tr').forEach((el) => {
-        el.children[5].innerHTML = +(((+el.children[3].innerHTML / (+el.children[3].innerHTML + (+el.children[4].innerHTML))) * 100)).toFixed(1) || 0;
+        const element = el;
+        element.children[5].innerHTML = +(((+el.children[3].innerHTML
+        / (+el.children[3].innerHTML + (+el.children[4].innerHTML))) * 100)).toFixed(1) || 0;
     });
 
     document.querySelectorAll('.arrows').forEach((el) => {
-        let tableBody = document.querySelector('.table-body');
-        let tableTrs = document.querySelectorAll('.table-body-tr');
+        tableBody = document.querySelector('.table-body');
+        const tableTrs = document.querySelectorAll('.table-body-tr');
+        const element = el;
+        element.onclick = (e) => {
+            const ind = Array.from(document.querySelectorAll('th')).findIndex((item) => item === e.target.closest('th'));
 
-        el.onclick = (e) => {
-            let ind = Array.from(document.querySelectorAll('th')).findIndex(item => item === e.target.closest('th'));
-
-            let sorted = [...tableTrs].sort((a, b) => {
+            const sorted = [...tableTrs].sort((a, b) => {
                 if (el.innerHTML === '\u2BC5') {
                     if (+ind > 2) {
                         return b.children[ind].innerHTML - a.children[ind].innerHTML;
                     }
                     if (a.children[ind].innerHTML <= b.children[ind].innerHTML) {
                         return 1;
-                    } else {
+                    }
                         return -1;
-                    };
-                } else {
+                }
                     if (+ind > 2) {
                         return a.children[ind].innerHTML - b.children[ind].innerHTML;
                     }
                     if (a.children[ind].innerHTML >= b.children[ind].innerHTML) {
                         return 1;
-                    } else {
+                    }
                         return -1;
-                    };
-                };
             });
 
             tableBody.innerHTML = '';
-            sorted.forEach((el) => {
-                tableBody.append(el);
+            sorted.forEach((elem) => {
+                tableBody.append(elem);
             });
 
             if (el.innerHTML === '\u2BC6') {
-                el.innerHTML = '\u2BC5';
+                element.innerHTML = '\u2BC5';
             } else {
-                el.innerHTML = '\u2BC6';
-            };
+                element.innerHTML = '\u2BC6';
+            }
         };
     });
 
-    btmReset.onclick = (e) => {
+    btmReset.onclick = () => {
         localStorage.clear();
         train.length = 0;
         trueAnswers.length = 0;
@@ -429,116 +402,103 @@ function renderStatistics() {
         renderStatistics();
     };
 
-    btnrepeatDiff.onclick = (e) => {
-
-        let arrTrs = [];
-        let arrTrsCorrect = [];
+    btnrepeatDiff.onclick = () => {
+        const arrTrs = [];
+        const arrTrsCorrect = [];
         document.querySelectorAll('.table-body-tr').forEach((el) => {
-            if (el.children[4].innerHTML / (+el.children[3].innerHTML + (+el.children[4].innerHTML)) > 0) {
+            if (el.children[4].innerHTML / (+el.children[3].innerHTML
+            + (+el.children[4].innerHTML)) > 0) {
                 arrTrs.push(el);
-            };
+            }
         });
 
-        arrTrs.sort((a, b) => {
-            return ((b.children[4].innerHTML / (+b.children[3].innerHTML + (+b.children[4].innerHTML)) - a.children[4].innerHTML / (+a.children[3].innerHTML + (+a.children[4].innerHTML))));
-        });
+        arrTrs.sort((a, b) => ((b.children[4].innerHTML / (+b.children[3].innerHTML
+        + (+b.children[4].innerHTML)) - a.children[4].innerHTML
+        / (+a.children[3].innerHTML + (+a.children[4].innerHTML)))));
 
         arrTrs.forEach((el) => {
             if (arrTrsCorrect.length >= 8) return;
-            arrTrsCorrect.push(el)
+            arrTrsCorrect.push(el);
         });
 
         function findObject(data) {
             let cardsObject;
             for (let i = 1; i <= 8; i++) {
-                cardsObject = cards[i].find(item => item.translation === data);
+                cardsObject = cards[i].find((item) => item.translation === data);
                 if (cardsObject !== undefined) break;
-            };
+            }
             return cardsObject;
-        };
+        }
 
         if (document.querySelector('.wrapper-card-container-main')) {
             document.querySelector('.wrapper-card-container-main').remove();
         }
 
-        let cardWrapper = createElement('div', 'wrapper-card-container-main', main);
-        let titlePage = createElement('div', 'titlePage', cardWrapper);
+        const cardWrapper = createElement('div', 'wrapper-card-container-main', main);
+        const titlePage = createElement('div', 'titlePage', cardWrapper);
         titlePage.innerHTML = 'Repeat difficult words';
 
         if (arrTrsCorrect.length === 0) {
-            let nothingToRepeat = createElement('div', 'nothingToRepeat', cardWrapper);
+            const nothingToRepeat = createElement('div', 'nothingToRepeat', cardWrapper);
             nothingToRepeat.innerHTML = 'There are no difficult <br> words to repeat';
             return;
         }
 
-        let ratingString = createElement('div', 'rating', cardWrapper);
+        const ratingString = createElement('div', 'rating', cardWrapper);
         ratingString.classList.add('unvisible');
 
         let i = 0;
-        arrTrsCorrect.forEach((el) => {
-            let cardContainer = createElement('div', 'card-container-main', cardWrapper);
-            let card = createElement('div', 'card-main', cardContainer);
-            let cardback = createElement('div', 'card-main-back', cardContainer);
-            let cardImage = createElement('div', 'card-main-image', card);
-            let cardImageback = createElement('div', 'card-main-image', cardback);
-            let cardName = createElement('div', 'card-main-name', card);
-            let cardNameback = createElement('div', 'card-main-name', cardback);
-            let arrCorrectObj = findObject(arrTrsCorrect[i].children[2].innerHTML);
+        arrTrsCorrect.forEach(() => {
+            const cardContainer = createElement('div', 'card-container-main', cardWrapper);
+            const card = createElement('div', 'card-main', cardContainer);
+            const cardback = createElement('div', 'card-main-back', cardContainer);
+            const cardImage = createElement('div', 'card-main-image', card);
+            const cardImageback = createElement('div', 'card-main-image', cardback);
+            const cardName = createElement('div', 'card-main-name', card);
+            const cardNameback = createElement('div', 'card-main-name', cardback);
+            const arrCorrectObj = findObject(arrTrsCorrect[i].children[2].innerHTML);
             cardImage.style.backgroundImage = `url('${arrCorrectObj.image}')`;
             cardName.innerHTML = arrTrsCorrect[i].children[1].innerHTML;
             cardImageback.style.backgroundImage = `url('${arrCorrectObj.image}')`;
             cardNameback.innerHTML = arrTrsCorrect[i].children[2].innerHTML;
 
-
             const audio = new Audio(arrCorrectObj.audioSrc);
             const rotate = createElement('div', 'card-rotate', card);
 
-            cardContainer.onclick = (e) => {
+            cardContainer.onclick = () => {
                 if (sound) {
                     audio.play();
-                };
+                }
             };
 
             card.onclick = (e) => {
                 if (!playModeOn) {
-                    let word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                    const word = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
                     train.push(word);
                     localStorage.setItem('train', JSON.stringify(train));
-                };
+                }
             };
 
-            rotate.onclick = (e) => {
+            rotate.onclick = () => {
                 audio.play();
                 sound = !sound;
                 card.classList.add('translate');
                 cardback.classList.add('translateback');
 
-                cardContainer.onmouseleave = (e) => {
+                cardContainer.onmouseleave = () => {
                     if (card.classList.contains('translate')) {
                         card.classList.remove('translate');
                         cardback.classList.remove('translateback');
                         if (!sound) {
                             sound = !sound;
                         }
-                    };
+                    }
                 };
             };
             i++;
         });
 
-        let playGame = document.querySelector('.switch-input');
-        playGame.onclick = (e) => {
-            playModeOn = !playModeOn;
-            sound = !sound;
-            playMode();
-        };
-
-        if (playModeOn) {
-            playMode()
-        };
-
         function playMode() {
-
             ratingString.innerHTML = '';
             ratingString.classList.toggle('unvisible');
             let pageCards = [];
@@ -548,41 +508,40 @@ function renderStatistics() {
                 document.querySelectorAll('.inactive').forEach((el) => {
                     el.classList.remove('inactive');
                 });
-            };
+            }
 
             if (!document.querySelector('.btns')) {
-                let btns = createElement('div', 'btns', cardWrapper);
-                let btnStart = createElement('button', 'btnStart', btns);
-                btnStart.innerHTML = "START GAME";
+                const btns = createElement('div', 'btns', cardWrapper);
+                const btnStart = createElement('button', 'btnStart', btns);
+                btnStart.innerHTML = 'START GAME';
 
                 arrTrsCorrect.forEach((el) => {
-                    pageCards.push(el)
+                    pageCards.push(el);
                 });
                 pageCards = shuffle(pageCards);
 
-                btnStart.onclick = (e) => {
-
+                btnStart.onclick = () => {
                     startGuessing = true;
-                    const audio = new Audio(findObject(pageCards[guessCardNumber].children[2].innerHTML).audioSrc);
+                    let audio = new Audio(findObject(pageCards[guessCardNumber]
+                    .children[2].innerHTML).audioSrc);
                     audio.play();
                     if (!btnStart.classList.contains('repeatBtn')) {
                         btnStart.classList.add('repeatBtn');
-                        btnStart.innerHTML = `<span class="material-icons">loop</span>`;
+                        btnStart.innerHTML = '<span class="material-icons">loop</span>';
                         document.querySelector('.material-icons').style.fontSize = '38px';
-                    };
+                    }
 
-                    let cardsGuessing = document.querySelectorAll('.card-container-main');
+                    const cardsGuessing = document.querySelectorAll('.card-container-main');
                     cardsGuessing.forEach((el) => {
-
-                        el.onclick = (e) => {
-
+                        const element = el;
+                        element.onclick = (e) => {
                             if (startGuessing) {
                                 if (e.target.style.backgroundImage === `url("${findObject(pageCards[guessCardNumber].children[2].innerHTML).image}")`) {
-                                    let audio = new Audio('assets/audio/correct.mp3');
+                                    audio = new Audio('assets/audio/correct.mp3');
                                     audio.play();
                                     e.target.closest('.card-container-main').classList.add('inactive');
                                     createElement('div', 'star-succes', ratingString);
-                                    let trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
+                                    const trueWord = e.target.closest('.card-container-main').children[1].children[1].innerHTML;
                                     trueAnswers.push(trueWord);
                                     localStorage.setItem('trueAnswers', JSON.stringify(trueAnswers));
 
@@ -591,15 +550,15 @@ function renderStatistics() {
                                             audio = new Audio('assets/audio/success.mp3');
                                             audio.play();
                                             document.querySelector('.wrapper-card-container-main').remove();
-                                            let containerLooser = createElement('div', 'containerfinall', main)
+                                            const containerLooser = createElement('div', 'containerfinall', main);
                                             createElement('div', 'winner', containerLooser);
                                         } else {
                                             audio = new Audio('assets/audio/failure.mp3');
                                             audio.play();
                                             document.querySelector('.wrapper-card-container-main').remove();
-                                            let containerLooser = createElement('div', 'containerfinall', main)
+                                            const containerLooser = createElement('div', 'containerfinall', main);
                                             createElement('div', 'looser', containerLooser);
-                                            let wrongScore = createElement('div', 'wrongScore', containerLooser);
+                                            const wrongScore = createElement('div', 'wrongScore', containerLooser);
                                             wrongScore.innerHTML = `${wrongAnswers} wrong answers`;
                                         }
                                         setTimeout(() => {
@@ -612,30 +571,28 @@ function renderStatistics() {
                                     if (guessCardNumber < arrTrsCorrect.length - 1) {
                                         guessCardNumber++;
                                         setTimeout(() => {
-                                            audio = new Audio(findObject(pageCards[guessCardNumber].children[2].innerHTML).audioSrc);
+                                            audio = new Audio(findObject(pageCards[guessCardNumber]
+                                            .children[2].innerHTML).audioSrc);
                                             audio.play();
                                         }, 1000);
-
                                     }
-
                                 } else {
-                                    const audio = new Audio('assets/audio/error.mp3');
+                                    audio = new Audio('assets/audio/error.mp3');
                                     audio.play();
                                     createElement('div', 'star-error', ratingString);
                                     wrongAnswers++;
-                                    let falseWord = findObject(pageCards[guessCardNumber].children[2].innerHTML).translation;
+                                    const falseWord = findObject(pageCards[guessCardNumber]
+                                    .children[2].innerHTML).translation;
                                     falseAnswers.push(falseWord);
                                     localStorage.setItem('falseAnswers', JSON.stringify(falseAnswers));
                                 }
-
-                            };
-                        }
+                            }
+                        };
                     });
                 };
-
             } else {
                 document.querySelector('.btns').remove();
-            };
+            }
 
             document.querySelectorAll('.card-main-name').forEach((el) => {
                 el.classList.toggle('hide');
@@ -646,13 +603,41 @@ function renderStatistics() {
             document.querySelectorAll('.card-main-image').forEach((el) => {
                 el.classList.toggle('playCardImage');
             });
+        }
+
+        const playGame = document.querySelector('.switch-input');
+        playGame.onclick = () => {
+            playModeOn = !playModeOn;
+            sound = !sound;
+            playMode();
         };
 
-
-    }
-
-
+        if (playModeOn) {
+            playMode();
+        }
+    };
 }
 
+const Navigation = document.querySelectorAll('.menu__item');
+function renderMenu(block) {
+    block.forEach((el) => {
+        const element = el;
+        element.onclick = (e) => {
+            e.preventDefault();
+            if (document.querySelector('.popup').classList.contains('show')) {
+                navigationBlock(burger, '.popup');
+            }
 
-
+            if (e.target.innerHTML === 'Main page') {
+                renderMainPage();
+                return;
+            } if (e.target.innerHTML === 'Statistics') {
+                renderStatistics();
+            } else {
+                const numberIndex = cards[0].findIndex((item) => item === e.target.innerHTML) + 1;
+                renderPages(numberIndex);
+            }
+        };
+    });
+}
+renderMenu(Navigation);
