@@ -285,30 +285,46 @@ function renderStatistics() {
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             const tr = createElement('tr', 'table-body-tr', tableBody);
-
+            const rowInd = j + 1 + 8 * i;
             for (let k = 0; k < 7; k++) {
                 createElement('td', 'table-body-td', tr);
             }
-
-            statTable.rows[j + 1 + 8 * i].cells[0].innerHTML = cards[0][i];
-            statTable.rows[j + 1 + 8 * i].cells[1].innerHTML = cards[i + 1][j].word;
-            statTable.rows[j + 1 + 8 * i].cells[2].innerHTML = cards[i + 1][j].translation;
-            statTable.rows[j + 1 + 8 * i].cells[3].innerHTML = 0;
-            statTable.rows[j + 1 + 8 * i].cells[4].innerHTML = 0;
-            statTable.rows[j + 1 + 8 * i].cells[5].innerHTML = 0;
-            statTable.rows[j + 1 + 8 * i].cells[6].innerHTML = 0;
+            statTable.rows[rowInd].cells[0].innerHTML = cards[0][i];
+            statTable.rows[rowInd].cells[1].innerHTML = cards[i + 1][j].word;
+            statTable.rows[rowInd].cells[2].innerHTML = cards[i + 1][j].translation;
+            statTable.rows[rowInd].cells[3].innerHTML = 0;
+            statTable.rows[rowInd].cells[4].innerHTML = 0;
+            statTable.rows[rowInd].cells[5].innerHTML = 0;
+            statTable.rows[rowInd].cells[6].innerHTML = 0;
         }
     }
+    const PINK = '#e7b5b5';
+    const GREY = '#b4be56';
+    const GREEN = '#3ae09b';
+    const VIOLET = '#ae74fa';
+    const PURPLE = '#e043ee';
+    const RED = '#ee43a1';
+    const YELLOW = '#ebee43';
+    const BLUE = '#43eee5';
+
+    const start1SectionInd = 1;
+    const start2SectionInd = 9;
+    const start3SectionInd = 17;
+    const start4SectionInd = 25;
+    const start5SectionInd = 33;
+    const start6SectionInd = 41;
+    const start7SectionInd = 49;
+    const start8SectionInd = 57;
 
     for (let i = 0; i < 8; i++) {
-        statTable.rows[i + 1].style.background = '#e7b5b5';
-        statTable.rows[i + 9].style.background = '#b4be56';
-        statTable.rows[i + 17].style.background = '#3ae09b';
-        statTable.rows[i + 25].style.background = '#ae74fa';
-        statTable.rows[i + 33].style.background = '#e043ee';
-        statTable.rows[i + 41].style.background = '#ee43a1';
-        statTable.rows[i + 49].style.background = '#ebee43';
-        statTable.rows[i + 57].style.background = '#43eee5';
+        statTable.rows[i + start1SectionInd].style.background = PINK;
+        statTable.rows[i + start2SectionInd].style.background = GREY;
+        statTable.rows[i + start3SectionInd].style.background = GREEN;
+        statTable.rows[i + start4SectionInd].style.background = VIOLET;
+        statTable.rows[i + start5SectionInd].style.background = PURPLE;
+        statTable.rows[i + start6SectionInd].style.background = RED;
+        statTable.rows[i + start7SectionInd].style.background = YELLOW;
+        statTable.rows[i + start8SectionInd].style.background = BLUE;
     }
 
     const statTranslation = [];
